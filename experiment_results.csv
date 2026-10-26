@@ -1,0 +1,5 @@
+run,configuration,change,macro_f1,accuracy,within_one_class,n_eval,fit_s_per_fold
+ref,Chance: stratified random guess,-,0.2136,0.2138,0.528,2572,0.006
+ref,"Logistic regression on 2 indicators (gw decline rate, clay %)",-,0.2537,0.2897,0.6407,2572,0.0118
+1,"Random Forest, 100 trees, scikit-learn defaults, 23 features, seed 42",baseline,0.3375,0.3421,0.6081,2572,1.0633
+2,"Random Forest, 100 trees, min_samples_leaf = 5, otherwise as Run 1",min_samples_leaf 1 -> 5,0.3692,0.3799,0.6365,2572,0.411
