@@ -1,0 +1,88 @@
+{
+ "note": "Checksums of the data files behind the processed table. verify_data.py compares them with the files on disk. Text files are hashed as written on the original Windows machine (CRLF line endings).",
+ "files": [
+  {
+   "path": "data/cdl_2016.tif",
+   "role": "predictor: USDA NASS Cropland Data Layer 2016 as downloaded for the study box",
+   "source": "USDA NASS CDL, retrieved 2026-10-05",
+   "committed_in_repo": true,
+   "sha256": "fc7ebe58a518ad61b0b1767132fb34e22c29115ee9d6413f34c5bb0fc512ec75",
+   "bytes": 1443054
+  },
+  {
+   "path": "data/cdl_2017.tif",
+   "role": "predictor: USDA NASS Cropland Data Layer 2017 as downloaded for the study box",
+   "source": "USDA NASS CDL, retrieved 2026-10-05",
+   "committed_in_repo": true,
+   "sha256": "9925c68f88650a32eec2becb734f3484c3b0955ff57fbb8d49a3142d5b3e70bb",
+   "bytes": 1443054
+  },
+  {
+   "path": "data/cdl_2018.tif",
+   "role": "predictor: USDA NASS Cropland Data Layer 2018 as downloaded for the study box",
+   "source": "USDA NASS CDL, retrieved 2026-10-05",
+   "committed_in_repo": true,
+   "sha256": "e064da096db0ffb04cb4660cad9be181d895ee247ef55497009b5b7f418afb95",
+   "bytes": 1443068
+  },
+  {
+   "path": "data/cdl_2019.tif",
+   "role": "predictor: USDA NASS Cropland Data Layer 2019 as downloaded for the study box",
+   "source": "USDA NASS CDL, retrieved 2026-10-05",
+   "committed_in_repo": true,
+   "sha256": "a9b842721a409c2eeac418d4e5b7130016fd52e60910dad27974bc007296ede0",
+   "bytes": 1443068
+  },
+  {
+   "path": "data/dem_30m.tif",
+   "role": "predictor: USGS 3DEP 30 m DEM as downloaded for the study box (py3dep)",
+   "source": "USGS 3DEP, retrieved 2026-10-05",
+   "committed_in_repo": true,
+   "sha256": "68670d080999df40f95f4a45bdb1b1aa3f39d351683e47429d0a32633c5b5e68",
+   "bytes": 10938410
+  },
+  {
+   "path": "data/dwr_groundwater_sample.csv",
+   "role": "predictor: DWR periodic groundwater level rows as downloaded (up to 300 wells, Tulare and Kings counties)",
+   "source": "DWR open data (CKAN datastore), retrieved 2026-10-05",
+   "committed_in_repo": true,
+   "sha256": "34a2a7bcb70786f3b61e3f6ed8b03d1568a35c3512c46511c6a01f0f2135fc7d",
+   "bytes": 4009944,
+   "note": "text file: hash is for the bytes as written on Windows (CRLF); .gitattributes keeps them unchanged"
+  },
+  {
+   "path": "data/subsidence_dataset.csv",
+   "role": "predictor table, 5,192 cells x 30 columns (output of build_dataset.py)",
+   "source": "built 2026-10-05",
+   "committed_in_repo": true,
+   "sha256": "62dd71198ccd9953d0cba2a0873fe76387b1184d779d8e08b7c867c2fb066a7a",
+   "bytes": 1605534,
+   "note": "text file: hash is for the CRLF bytes as written on Windows"
+  },
+  {
+   "path": "data/subsidence_dataset_processed.csv",
+   "role": "predictor table plus label, split and class, 5,192 cells x 37 columns (output of insar_label.ipynb)",
+   "source": "built 2026-10-12",
+   "committed_in_repo": true,
+   "sha256": "ad033f34e110042e193ef9135dcae13e5905e9a487d2b881265aa53dc35cbd50",
+   "bytes": 1855970,
+   "note": "text file: hash is for the CRLF bytes as written on Windows"
+  },
+  {
+   "path": "data/insar_points.zip",
+   "role": "DWR TRE ALTAMIRA verticaldisplacementpointdata.zip (manual download, not in the repository: 5.3 GB)",
+   "source": "data.cnra.ca.gov package tre-altamira-insar-subsidence",
+   "committed_in_repo": false,
+   "sha256": "b048035c38b6f9317d6d307c4e692f296405c99ff8340e88a00fae1fc1c1ff18",
+   "bytes": 5262324358
+  },
+  {
+   "path": "data/insar_study_area.csv",
+   "role": "InSAR points inside the study box (intermediate, not in the repository: 159 MB)",
+   "source": "insar_label.ipynb Step 1",
+   "committed_in_repo": false,
+   "sha256": "59d6153b78a86536dc6563fc29a7d8c97a0bfaa479d87cf4603dacd2a71ce163",
+   "bytes": null
+  }
+ ]
+}
