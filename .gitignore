@@ -1,0 +1,7 @@
+# Too large for the repository (see README)
+data/insar_points.zip
+data/insar_study_area.csv
+
+# Jupyter
+.ipynb_checkpoints/
+__pycache__/

@@ -9,7 +9,7 @@ The output is a **relative ranking from 2020-2024 InSAR history. It is not a for
 that damage will occur at any location.**
 
 This repository holds the data work only: the grid, the predictor layers, the InSAR-based outcome label,
-the train/test split and the files that record where everything came from. No model has been trained yet.
+the train/test split and the files that record where everything came from. Milestone 4 adds the model experiments described below.
 
 ---
 
@@ -21,14 +21,17 @@ the train/test split and the files that record where everything came from. No mo
 | `playground.ipynb` | Exploration notebook for the grid. |
 | `insar_label.ipynb` | Reads the DWR InSAR point file, builds the outcome label, the spatial split and the class boundaries. Writes `data/subsidence_dataset_processed.csv`, `data/label_build_log.json` and the label figures. |
 | `fig44_sketch.ipynb` | Draws the Figure 4.4 mockup (exported susceptibility map and legend) from the labeled grid. |
-| `requirements.txt` | Python packages. |
+| `requirements.txt` / `environment.yml` | Python packages with the versions the experiments ran with. |
+| `training_experiments.ipynb` | Milestone 4: all experiments in one notebook. Part A: Random Forest runs, leakage checks, LIME, gradient boosting (E5), ablation (E6), fold check (C2), error analysis of the selected forest. Part B: CNN runs, LIME checks. |
+| `selected_rf_error_analysis.py` | Milestone 4: confidence and error figures for the selected forest. |
+| `experiment_results.csv`, `experiment_results_cnn.csv`, `experiment_results_e5_e6.csv` | Validation scores saved by Part A, Part B and Step 8 of the notebook. |
 | `data/subsidence_dataset.csv` | Predictor table, 5,192 cells x 30 columns (about 1.6 MB, version-controlled). |
 | `data/subsidence_dataset_processed.csv` | Same table plus the label, 5,192 cells x 37 columns (about 1.9 MB, version-controlled). |
 | `data/label_build_log.json` | Settings, counts, class cut points and file checksums for the label build. |
 | `data/insar_extract_log.json` | Which DWR files reached the study area, and the checksum of the downloaded zip. |
 | `figures/` | `label_and_split_maps.png`, `subsidence_distribution.png`, `fig_4_4_sketch.png`. |
 
-Not in the repository (listed in `.gitignore`, because of size): `data/insar_points.zip` (5.3 GB),
+Not in the repository (listed in `.gitignore`, because of size; the small CDL and DEM rasters in `data/` are committed): `data/insar_points.zip` (5.3 GB),
 `data/insar_study_area.csv` (159 MB) and the raw per-source downloads (CDL rasters, DEM).
 
 ---
@@ -79,6 +82,12 @@ study area.
 
 **Result.** 3,539 of 5,192 cells (68.2%) are labeled: 2,572 train and 967 test. 1,653 cells (31.8%) have no usable
 InSAR point and are left out of training and evaluation.
+
+---
+
+## Model experiments (Milestone 4)
+
+All scores are 5-fold cross-validation over whole 5 km blocks of the 40 training blocks (2,572 cells); the 967 test cells are not scored. Selected model: Random Forest, 100 trees, `min_samples_leaf=5` (macro-F1 0.369 at seed 42, 0.372 +/- 0.003 over five seeds, against the 0.50 target). The CNN was not better (0.356 +/- 0.021 over three seeds). Run `python selected_rf_error_analysis.py` from the repository root to reproduce the selected forest's calibration figures (it first prints macro-F1 0.3692).
 
 ---
 

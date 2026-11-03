@@ -1,0 +1,3 @@
+# Keep CSV bytes exactly as written so the SHA-256 checksums in README.md and data/label_build_log.json match after a clone.
+*.csv -text
+*.tif binary

@@ -1,13 +1,26 @@
-pandas
-numpy
-matplotlib
+# Subsidence susceptibility project (EGN 6216): packages for the notebooks in this repo.
+# Python 3.12. Versions are the ones the experiment notebooks were run with (Windows 11, no GPU).
+
+numpy==2.5.4
+pandas==3.1.0
+scipy==1.18.1
+scikit-learn==1.9.1
+matplotlib==3.11.2
+pyproj==3.8.0
+
+# Only training_experiments.ipynb needs TensorFlow (it brings Keras 3.15.1) and lime.
+tensorflow==2.21.0
+lime==0.2.0.1
+
+# To run the notebooks
+ipykernel==7.4.0
+jupyterlab==4.6.4
+
+# Only for rebuilding data/subsidence_dataset.csv with build_dataset.py (versions not pinned here)
 geopandas
 shapely
 rasterio
-pyproj
-scipy
 requests
 py3dep
 rioxarray
 nbformat
-jupyter
