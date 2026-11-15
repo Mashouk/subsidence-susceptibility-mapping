@@ -1,0 +1,17 @@
+.git
+*.ipynb
+figures
+step10
+artifacts
+data/insar_points.zip
+data/insar_study_area.csv
+data/*.tif
+data/dwr_groundwater_sample.csv
+__pycache__
+grafana
+feedback
+prometheus.yml
+docker-compose.yml
+.env
+docker-compose.vm.yml
+VM_SETUP.md

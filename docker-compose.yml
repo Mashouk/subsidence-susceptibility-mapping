@@ -1,0 +1,45 @@
+# App + Prometheus + Grafana, same layout as the Module 8 warm-up.
+#   docker compose up --build
+#   App http://localhost:7860   Metrics http://localhost:8000/metrics
+#   Prometheus http://localhost:9090   Grafana http://localhost:3000 (admin / admin)
+services:
+  subsidence-app:
+    build: .
+    container_name: subsidence-app
+    ports:
+      - "7860:7860"   # Gradio
+      - "8000:8000"   # Prometheus metrics
+    environment:
+      - REVIEW_CODE=${REVIEW_CODE:-review}   # code for the Review tab. Change it: REVIEW_CODE=mycode docker compose up --build
+    volumes:
+      - feedback-data:/app/feedback          # the feedback database survives restarts and rebuilds
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+    depends_on:
+      - subsidence-app
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/var/lib/grafana/dashboards/subsidence.json
+    volumes:
+      - ./grafana/provisioning/datasources/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml:ro
+      - ./grafana/provisioning/dashboards/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    depends_on:
+      - prometheus
+
+volumes:
+  feedback-data:

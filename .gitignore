@@ -5,3 +5,8 @@ data/insar_study_area.csv
 # Jupyter
 .ipynb_checkpoints/
 __pycache__/
+
+# Gradio app: secrets and generated or user data
+.env
+artifacts/
+feedback/

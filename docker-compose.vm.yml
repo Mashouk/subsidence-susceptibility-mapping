@@ -1,0 +1,58 @@
+# VM version of docker-compose.yml.  Run from the repository root (next to Dockerfile and prometheus.yml):
+#   cp .env.example .env     # then edit the two values
+#   docker compose -f docker-compose.vm.yml up -d --build
+# Differences from docker-compose.yml:
+#   * only the Gradio app (7860) is published on all interfaces; metrics, Prometheus and Grafana listen on 127.0.0.1
+#     (reach them with an SSH tunnel, see VM_SETUP.md)
+#   * REVIEW_CODE and GRAFANA_PASSWORD have no defaults: compose refuses to start if they are missing from .env
+#   * restart: unless-stopped, and Prometheus keeps its data in a volume (15 days) so the record survives a reboot
+services:
+  subsidence-app:
+    build: .
+    container_name: subsidence-app
+    restart: unless-stopped
+    ports:
+      - "7860:7860"                 # the only public port
+      - "127.0.0.1:8000:8000"       # raw metrics, local only
+    environment:
+      - REVIEW_CODE=${REVIEW_CODE:?set REVIEW_CODE in .env}
+    volumes:
+      - feedback-data:/app/feedback
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=15d
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    ports:
+      - "127.0.0.1:9090:9090"
+    depends_on:
+      - subsidence-app
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:?set GRAFANA_PASSWORD in .env}
+      - GF_AUTH_ANONYMOUS_ENABLED=false
+      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/var/lib/grafana/dashboards/subsidence.json
+    volumes:
+      - ./grafana/provisioning/datasources/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml:ro
+      - ./grafana/provisioning/dashboards/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    depends_on:
+      - prometheus
+
+volumes:
+  feedback-data:
+  prometheus-data:
