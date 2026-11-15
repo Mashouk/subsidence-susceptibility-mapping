@@ -136,19 +136,22 @@ def draw_map(layer, grid_id=None):
     return img
 
 
+INK = "color:#222 !important;"        # the legend card is light in both themes, so its text must be dark in both
+
+
 def legend_html(layer):
     def sw(c, t, extra=""):
         return (f'<div style="display:flex;align-items:center;gap:8px;margin:3px 0">'
                 f'<span style="width:18px;height:18px;border-radius:3px;background:{c};{extra}"></span>'
-                f'<span style="font-size:14px">{t}</span></div>')
+                f'<span style="font-size:14px;{INK}">{t}</span></div>')
     hatch = "background-image:repeating-linear-gradient(135deg,transparent 0 3px,#fff 3px 4px);"
     if layer == LAYERS[2]:
         stops = ",".join(matplotlib.colors.to_hex(colormaps["cividis"](v)) for v in np.linspace(0, 1, 6))
-        body = (f'<div style="font-weight:600;margin-bottom:4px">Model confidence (highest class probability)</div>'
+        body = (f'<div style="font-weight:600;margin-bottom:4px;{INK}">Model confidence (highest class probability)</div>'
                 f'<div style="height:14px;border-radius:3px;background:linear-gradient(90deg,{stops})"></div>'
-                f'<div style="display:flex;justify-content:space-between;font-size:13px"><span>0.20 or less</span>'
-                f'<span>0.80 or more</span></div>'
-                f'<div style="font-size:13px;margin-top:4px">Faded cells have no InSAR label (model estimate only). '
+                f'<div style="display:flex;justify-content:space-between;font-size:13px;{INK}"><span style="{INK}">0.20 or less</span>'
+                f'<span style="{INK}">0.80 or more</span></div>'
+                f'<div style="font-size:13px;margin-top:4px;{INK}">Faded cells have no InSAR label (model estimate only). '
                 f'Five classes means a random guess is about 0.20.</div>')
     else:
         items = "".join(sw(c, LABEL[k]) for c, k in zip(PALETTE, CLASSES))
@@ -157,8 +160,8 @@ def legend_html(layer):
                       sw("#3f7fd4", f"Hatched: low support, fewer than 3 InSAR points ({int(LOW_SUPPORT.sum()):,} cells)", hatch))
         else:
             items += sw("#8bb8f0;opacity:.45", "Faded: no InSAR label, model estimate only")
-        body = '<div style="font-weight:600;margin-bottom:4px">Susceptibility (relative ranking)</div>' + items
-    return f'<div style="padding:10px 12px;border:1px solid #d6d6d0;border-radius:8px;background:{BG};color:#222">{body}</div>'
+        body = f'<div style="font-weight:600;margin-bottom:4px;{INK}">Susceptibility (relative ranking)</div>' + items
+    return f'<div style="padding:10px 12px;border:1px solid #d6d6d0;border-radius:8px;background:{BG};{INK}">{body}</div>'
 
 
 # ---------------------------------------------------------------- cell details
