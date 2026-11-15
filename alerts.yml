@@ -1,0 +1,47 @@
+# Alert rules for the subsidence app (Section 9.2-9.4). Prometheus evaluates them every 15 s; firing alerts show at
+# http://127.0.0.1:9090/alerts. There is no pager or e-mail in this project: "response" says what the operator does when one fires.
+# Expected ranges come from the measurements in evidence/ and tests/latency_result.json and are provisional (no real users yet).
+groups:
+  - name: subsidence-app
+    rules:
+      - alert: SubsidenceAppDown            # signal 1: availability. Expected: up = 1 all the time.
+        expr: up{job="subsidence-app"} == 0
+        for: 1m
+        labels: {signal: availability}
+        annotations:
+          response: "docker compose ps; docker logs subsidence-app --tail 100; docker compose restart subsidence-app. Users see a page that does not load."
+
+      - alert: SubsidenceHandlerErrors      # signal 2: errors raised inside a handler. Expected: 0 in any 10 minutes.
+        expr: sum(increase(subsidence_errors_total[10m])) > 0
+        for: 0m
+        labels: {signal: errors}
+        annotations:
+          response: "Open the Grafana panel 'Handler errors' to see which handler, then docker logs subsidence-app for the traceback. For handler=feedback check that the feedback volume is writable and not locked."
+
+      - alert: SubsidenceSlowResponses      # signal 3: latency. Expected 95th percentile of handler time under 0.5 s (measured about 0.1 s); trigger above 1 s for 5 minutes.
+        expr: histogram_quantile(0.95, sum by (le) (rate(subsidence_request_seconds_bucket[5m]))) > 1
+        for: 5m
+        labels: {signal: latency}
+        annotations:
+          response: "Check CPU and memory of the host (docker stats), look for a stuck handler in the logs, restart the app container. If it persists after a restart, look at the size of the request that triggered it."
+
+      - alert: SubsidenceConfidenceShift    # signal 4: shift in what the model outputs. Expected: 38 to 88% of the predictions shown in any 5 minutes have confidence below 0.4 (grid-wide baseline 63%); judged only when 40 or more were shown in the window.
+        expr: |
+          (
+            (sum(increase(subsidence_prediction_confidence_bucket{le="0.4"}[5m])) / sum(increase(subsidence_prediction_confidence_count[5m])) > 0.88)
+            or
+            (sum(increase(subsidence_prediction_confidence_bucket{le="0.4"}[5m])) / sum(increase(subsidence_prediction_confidence_count[5m])) < 0.38)
+          ) and sum(increase(subsidence_prediction_confidence_count[5m])) >= 40
+        for: 0m
+        labels: {signal: output-shift}
+        annotations:
+          response: "Open the Grafana panels 'Prediction confidence' and 'Share of predictions shown with confidence below 0.4'. Ask who is using the app and for which area; check subsidence_model_info for a changed model or data version; if the data changed, re-run the evidence/ scripts before trusting the map."
+
+      - alert: SubsidenceNegativeFeedback   # signal 5: user feedback. Expected: at most half of the feedback in 7 days is 'Bad'. Needs 10 or more entries.
+        expr: |
+          (sum(increase(subsidence_feedback_total{feedback_type="Bad"}[7d])) / sum(increase(subsidence_feedback_total[7d])) > 0.5)
+          and sum(increase(subsidence_feedback_total[7d])) >= 10
+        for: 0m
+        labels: {signal: feedback}
+        annotations:
+          response: "Open the Review tab, read the Bad entries by issue type, set a status and write what was done; if one issue repeats, open a change (see 9.5)."

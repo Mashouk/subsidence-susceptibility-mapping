@@ -1,6 +1,6 @@
 # Land Subsidence Susceptibility Mapping: Data Workspace
 
-Data pipeline for **EGN 6216 AI Systems, Milestone 3 (Data Collection and Management)**.
+Data pipeline, model experiments and running system for **EGN 6216 AI Systems** (Milestones 3 to 6).
 
 The project builds a relative land-subsidence susceptibility ranking for 500 m grid cells in the
 Tulare-Corcoran area of California's San Joaquin Valley. The intended user is a groundwater manager at a
@@ -8,8 +8,58 @@ Groundwater Sustainability Agency (GSA) who uses the map to decide where to prio
 The output is a **relative ranking from 2020-2024 InSAR history. It is not a forecast and not a guarantee
 that damage will occur at any location.**
 
-This repository holds the data work only: the grid, the predictor layers, the InSAR-based outcome label,
-the train/test split and the files that record where everything came from. Milestone 4 adds the model experiments described below.
+This repository holds the grid, the predictor layers, the InSAR-based outcome labels, the train/test split, the files that record where
+everything came from, the Milestone 4 model experiments and the Milestone 5/6 running system (start with the next section).
+
+---
+
+## Milestone 5/6: the running system (start here)
+
+**Run it from a clean machine** (Windows, macOS or Linux with Docker Desktop / Docker Engine; nothing else to install):
+
+```bash
+git clone https://github.com/Mashouk/subsidence-susceptibility-mapping.git
+cd subsidence-susceptibility-mapping
+git checkout <COMMIT>                      # the commit named on the title page of the final document
+cp .env.example .env                       # Windows PowerShell: copy .env.example .env   then edit REVIEW_CODE and GRAFANA_PASSWORD
+docker compose -f docker-compose.vm.yml up -d --build
+```
+
+| What | Address (this computer only, except the app) |
+|---|---|
+| The app (map, feedback, review tab) | http://localhost:7860 |
+| Raw metrics | http://127.0.0.1:8000/metrics |
+| Prometheus (targets, alerts) | http://127.0.0.1:9090 (Alerts page: the five rules in `alerts.yml`) |
+| Grafana dashboard | http://127.0.0.1:3000 (user `admin`, the `GRAFANA_PASSWORD` from `.env`) |
+
+The first build downloads the Python, Prometheus and Grafana images and trains the model (about 5 seconds, including the cross-validation that prints the score) inside the image.
+Without Docker: `pip install -r requirements-app.txt` then `python app.py` (the app and the metrics page only).
+Stop with `docker compose -f docker-compose.vm.yml down` (add `-v` to delete the feedback database and the metric history).
+
+**Two versions of the outcome label.** `v2` (default) is the reset-aware label in `data/v2/`; `v1` is the label as built for Milestone 4
+(`data/subsidence_dataset_processed.csv`, kept unchanged). Same grid, predictors, blocks, split and model; only the outcome differs. Serve v1
+with `docker compose -f docker-compose.vm.yml build --build-arg DATA_PATH=data/subsidence_dataset_processed.csv` (or `SUBSIDENCE_DATA=...` without Docker).
+Why there are two: DWR's cumulative series restart at 0 whenever a point comes back after a gap, and v1 fitted one line across the restarts
+(see Known issues and `evidence/`).
+
+**Tests and measurements of the running system** (run while the stack is up; details at the top of each file):
+
+| Command | What it does | Output |
+|---|---|---|
+| `python tests/deployed_tests.py` | 24 tests: valid, edge, malformed, integration, security controls | `tests/deployed_tests_result.json` |
+| `python tests/latency.py` | end-to-end latency of four interactions, 40 calls each | `tests/latency_result.json` |
+| `python tests/inject_failure.py db_lock` / `drift` / `down` | deliberate failures and whether the alerts fire | printed |
+| `python measure_selected_model.py` | fit time, model size, whole-grid and single-cell prediction time | `evidence/model_measurements_<machine>.json` |
+
+**Evidence for the label and the model** (all offline except the last; each script says what it needs at its top):
+
+| Script | Question it answers | Output in `evidence/` |
+|---|---|---|
+| `label_source_check.py` | Can every label be traced to its readings? Do the series restart at 0 after gaps? How much do points inside one cell disagree? Does the label follow DWR's own velocity? | `label_source_check.json`, `label_source_check_cells.csv`, `label_v2_cells.csv` |
+| `build_label_v2.py` | Writes the reset-aware label (v2) as `data/v2/` | `data/v2/*` |
+| `label_artifact_model_check.py` | Does the selected forest follow subsidence or the restart artifact? (E10) | `label_artifact_model_check.json` |
+| `ranking_and_confidence_eval.py v1` / `v2` | Hit rate at 5/10/20% against random, the two-indicator rule and a late-2019 persistence proxy; the map confidence states and the 3-point support rule, by block and by label support | `ranking_and_confidence_v1.json`, `..._v2.json`, `development_oof_predictions_*.csv`, `persistence_proxy_late2019.csv` |
+| `trace_label_vs_raster.py` | Asks DWR's rasters (needs internet) what they show at the points' own locations, to separate alignment from the restart artifact | `trace_label_vs_raster_points.csv`, `..._cells.csv` |
 
 ---
 
@@ -26,6 +76,8 @@ the train/test split and the files that record where everything came from. Miles
 | `selected_rf_error_analysis.py` | Milestone 4: confidence and error figures for the selected forest. |
 | `experiment_results.csv`, `experiment_results_cnn.csv`, `experiment_results_e5_e6.csv`, `experiment_results_step10.csv` | Validation scores saved by Part A, Part B, Step 8 and Step 10 of the notebook. |
 | `verify_data.py`, `data/checksums.json` | Recomputes the SHA-256 of every data file and compares it with the recorded value (see File checksums). |
+| `app.py`, `prepare.py`, `metrics.py`, `feedback.py`, `Dockerfile`, `docker-compose*.yml`, `prometheus.yml`, `alerts.yml`, `grafana/` | The running system (Milestone 5/6): Gradio app, model training at build time, Prometheus metrics, SQLite feedback store, alert rules and the Grafana dashboard. `APP_README.md` and `VM_SETUP.md` explain the pieces. |
+| `tests/`, `evidence/`, `data/v2/` | Tests and latency scripts for the running system, the evidence scripts' outputs, and the reset-aware label. See the tables above. |
 | `check_units_against_dwr_raster.py` | Compares the label with DWR's own feet rasters at the same places, to check the unit and sign of the point file (needs internet). |
 | `data/subsidence_dataset.csv` | Predictor table, 5,192 cells x 30 columns (about 1.6 MB, version-controlled). |
 | `data/subsidence_dataset_processed.csv` | Same table plus the label, 5,192 cells x 37 columns (about 1.9 MB, version-controlled). |
@@ -87,34 +139,47 @@ InSAR point and are left out of training and evaluation.
 
 ---
 
-## Model experiments (Milestone 4)
+## Model experiments (Milestone 4, with the Milestone 5/6 additions at the end)
 
 All scores are 5-fold cross-validation over whole 5 km blocks of the 40 training blocks (2,572 cells); the 967 test cells are not scored. Selected model: Random Forest, 100 trees, `min_samples_leaf=5` (macro-F1 0.369 at seed 42, 0.372 +/- 0.003 over five seeds, against the 0.50 target). The CNN was not better (0.356 +/- 0.021 over three seeds). Run `python selected_rf_error_analysis.py` from the repository root to reproduce the selected forest's calibration figures (it first prints macro-F1 0.3692). Step 10 of the notebook checks label support, a buffer along block edges and fold-wise class cut points (results in `experiment_results_step10.csv`).
+
+Milestone 5/6 additions (all on development cells, the 14 test blocks are still unscored): E10 trains the same forest on the v2 label: macro-F1 0.429 (v1: 0.369), within-one 0.76, rank correlation of the ranking with the v2 label 0.60 and with DWR's velocity 0.66 (`evidence/label_artifact_model_check.json`). The hit-rate comparison and the confidence-state tests are in `evidence/ranking_and_confidence_v1.json` and `..._v2.json`.
 
 ---
 
 ## Known issues
 
+- **The v1 label is partly an artifact of restarts in the source series (found 2026-11-15; v2 corrects it).** In the DWR point file every
+  reading that follows a gap of 96 days or more is exactly 0 (45,759 of 45,759 gaps; a point's first reading is 0 as well), so a point's
+  cumulative series starts again from 0 each time it reappears. 42% of the usable points restart at least once inside 2020-2024 (98% of the
+  restarts fall in 2022-2024). v1 fitted one straight line through the whole window, so a restart reads as a rise (the step has the size of the displacement
+  accumulated before the gap). Effects measured in `evidence/label_source_check.json`: the v1 cell label
+  has a rank correlation of -0.04 with DWR's own velocity column VEL_V (v2: 0.85); on average 91% and 86% of the usable points in `very_low` and `low` cells
+  restart (20% in `very_high`); and the earlier raster check (rank correlation -0.07, `unit_check_results.csv`) is what this predicts. A forest
+  trained on v1 ranks cells in the opposite direction to VEL_V and to v2 (rank correlations -0.37 and -0.37). To check by hand, open DWR's
+  original CSV for point BSJQX9Q (readings -279 on 2022-01-01, then 0 on 2022-04-07) or BR3Y7QY (-1,354 on 2024-01-01, then 0 on 2024-04-07). Whether DWR's rasters contain the same restarts is not
+  settled; run `trace_label_vs_raster.py`.
+- **v2 is a constructed proxy, not measured subsidence.** It fits one slope per point with a separate starting level for each
+  uninterrupted stretch of readings and carries the trend across the gap; the displacement during the gap is not observed. It labels 3,015
+  cells (2,193 development, 822 test) instead of 3,539, because a point now needs stretches covering 60% of the window. Neither label is
+  checked against DWR's rasters yet.
 - **Units are inferred, not confirmed.** DWR's catalog text says its rasters are in feet and states no unit for the point
-  file (checked 2026-11-02). The technical report that probably defines the point-file columns is a PDF I could not open
-  from my work environment. The values cannot be feet (the median velocity VEL_V of -107.8 per year would be about 108
-  feet per year; the largest window reading, 2,536.6, would be 773 m), and they are consistent with millimetres, which is
-  how the label is treated. `check_units_against_dwr_raster.py` compares the label with DWR's own feet rasters at the same
-  places. Result of that check: not yet recorded here.
-- **The label is a fitted-trend displacement** (slope of a line through the 2020-2024 readings times 4.9993 years), not the
-  directly observed change between the first and last reading. The two have not been compared.
+  file (checked 2026-11-02 and 2026-11-15; the ImageServer description says "feet", the dataset page names no field definitions, no sign
+  convention and no reference point). The values cannot be feet (the median velocity VEL_V of -107.8 per year would be about 108
+  feet per year), and they are consistent with millimetres, which is how the label is treated. The raster check of 2026-11-02 found the
+  scale consistent with millimetres (median ratio 0.91) but no cell-level agreement (rank correlation -0.07; 143 of 200 cells had raster
+  values); `unit_check_results.csv` from that run should be committed to `evidence/`.
+- **The label is a fitted-trend displacement**, not the directly observed change between the first and last reading. For the usable points
+  the fitted and observed changes agree in rank (0.94 per point, 0.88 per cell) but differ by a median of 67 mm and the cell classes agree for
+  63% of cells (89% within one class); see `evidence/label_source_check.json`, section B.
 - **31.8% of cells have no label**, and they are most common in the south-west of the study area.
 - **Thin support:** 865 labeled cells (24.4%) rest on fewer than 3 points (476 on a single point). `insar_n_points`
   is kept so this can be checked. Step 10 of the notebook shows the selected forest scores macro-F1 0.25 on development
   cells that rest on 1 or 2 points and 0.43 on cells that rest on 11 or more.
 - **The label is bimodal.** One hump sits near zero and another at about 500-1,000. The `very_low` and `low` classes
   both lie in the near-zero hump, about 70 units apart.
-- **Cells that appear to rise:** 650 labeled cells (18.4%) have a window displacement below -100 (480 of the 2,572
-  development cells). They concentrate in thin labels: 59.8% of the development cells below -500 rest on 1 or 2 points,
-  against 24.1% of all development cells, and only 0.9% of the cells that rest on 11 or more points are below -500. That
-  points to measurement noise more than rebound. But the neighbors of these cells also rise more often than chance (32%
-  against 19%), so some real rebound or a shared artifact is possible. No cell was removed; all of them fall in
-  `very_low`. The individual point time series have not been examined.
+- **Cells that appear to rise** (650 labeled v1 cells, 18.4%, below -100): the time series were examined on 2026-11-15. These are cells where most
+  points restart (see the first bullet), not rebound. In v2 99% of labeled cells are sinking.
 - **Test classes are not balanced:** class shares in the test cells run from 16.3% to 26.3%, because whole blocks
   were held out.
 - **Soil:** 418 cells (8.1%) have no soil values (`soil_missing = 1`).

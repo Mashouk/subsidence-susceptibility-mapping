@@ -15,3 +15,6 @@ docker-compose.yml
 .env
 docker-compose.vm.yml
 VM_SETUP.md
+evidence
+tests
+alerts.yml

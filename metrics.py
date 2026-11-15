@@ -83,7 +83,7 @@ def init(classes, layers, meta):
         ERRORS.labels(h)
     MODEL_F1.set(meta["oof_macro_f1"])
     MODEL_INFO.info({"model": "RandomForest(n_estimators=100, min_samples_leaf=5)", "sklearn": meta["sklearn"],
-                     "data_sha256": meta["data_sha256"][:12]})
+                     "data_sha256": meta["data_sha256"][:12], "label_version": str(meta.get("label_version", "v1"))})
 
 
 def start(port=None):

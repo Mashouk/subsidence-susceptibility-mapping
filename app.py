@@ -397,15 +397,32 @@ def review_export(code):
 BANNER = ("**Relative susceptibility ranking from 2020-2024 InSAR history, used to prioritize monitoring. "
           "Not a forecast, and not a guarantee that damage will occur at any location.**")
 
+LABEL_TEXT = {
+    "v2": ("the median 2020-01-01 to 2024-12-31 displacement of the InSAR points in the cell (DWR / TRE ALTAMIRA), fitted so that a point's "
+           "trend never runs across a restart of its series: DWR's cumulative series restart at 0 after a gap of about three months or more, "
+           "so each uninterrupted stretch of readings gets its own starting level and one common slope."),
+    "v1": ("the median 2020-01-01 to 2024-12-31 displacement of the InSAR points in the cell (DWR / TRE ALTAMIRA), from one straight line "
+           "through all of a point's readings. **Known problem:** the line runs across restarts of DWR's cumulative series, so many cells with "
+           "restarts are labelled as rising or flat. Use the v2 label."),
+}.get(META.get("label_version", "v1"))
+
+QUALITY_TEXT = {
+    "v2": ("The v2 label follows DWR's own long-term velocity at cell level (rank correlation about 0.85) but has not been checked against DWR's "
+           "rasters. On held-out training blocks the model's ranking correlates about 0.6 with the label, and predictions above 0.65 confidence "
+           "were right for 92% of such cells, but the errors cluster in a few blocks and the result changes with which blocks are held out."),
+    "v1": ("The v1 label does not follow DWR's own velocity (rank correlation about 0), and a model trained on it ranks cells in the opposite "
+           "direction to DWR's velocity (about -0.37). This version is kept only to reproduce the Milestone 4 results."),
+}.get(META.get("label_version", "v1"))
+
 ABOUT = f"""
 ### What this tool is
 A relative ranking of 500 m grid cells in the Tulare-Corcoran area (San Joaquin Valley, California) into five
 susceptibility classes, for a groundwater manager deciding where to prioritize monitoring.
 
 ### Where the classes come from
-- **Observed class:** the median 2020-01-01 to 2024-12-31 displacement of the InSAR points in the cell (DWR / TRE ALTAMIRA),
-  cut into five classes at the 20th, 40th, 60th and 80th percentile of the training cells
-  ({", ".join(f"{c:,.1f}" for c in META["cutpoints"]) if META.get("cutpoints") else "see data/label_build_log.json"}).
+- **Observed class ({META.get("label_version", "v1")}):** {LABEL_TEXT}
+  Classes are cut at the 20th, 40th, 60th and 80th percentile of the training cells
+  ({", ".join(f"{c:,.1f}" for c in META["cutpoints"]) if META.get("cutpoints") else "see the label_build_log.json next to the data file"}).
   {META["n_unlabeled"]:,} of {META["n_cells"]:,} cells have no usable InSAR point and no observed class.
 - **Model prediction:** Random Forest (100 trees, minimum 5 samples per leaf) using groundwater, land use, soil, elevation and slope.
   Training cells: {META["n_train_cells"]:,} (whole 5 km blocks). Held-out test cells: {META["n_test_cells"]:,}.
@@ -419,8 +436,9 @@ confidence. This app does not compute a score on the test cells.
 
 ### Limits to keep in mind
 - **Units are inferred, not confirmed.** DWR does not state the unit of the point file. Values are treated as millimetres.
-- **Thin labels:** about a quarter of labeled cells rest on fewer than 3 InSAR points (hatched on the map).
-- **The label is a fitted trend**, not the observed change between two dates.
+- **Thin labels:** {LOW_SUPPORT.sum() / HAS_LABEL.sum():.0%} of labeled cells rest on fewer than 3 InSAR points (hatched on the map).
+- **The label is a fitted trend**, not the observed change between two dates, and it is a constructed proxy, not measured subsidence.
+  {QUALITY_TEXT}
 - **Cells with no label** are mostly in the south-west. Model estimates there are extrapolations from other places.
 - Geologic layers are not included yet.
 

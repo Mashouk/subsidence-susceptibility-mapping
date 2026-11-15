@@ -3,7 +3,11 @@
 Put these files in the repository root (next to `data/`):
 
     app.py  prepare.py  metrics.py  feedback.py  requirements-app.txt  Dockerfile  .dockerignore
-    docker-compose.yml  prometheus.yml  grafana/
+    docker-compose.yml  docker-compose.vm.yml  .env.example  prometheus.yml  alerts.yml  grafana/  tests/
+
+The start-here instructions (clean clone, commit, `.env`, ports) are at the top of `README.md`. This file explains the pieces.
+`docker-compose.vm.yml` is the hardened version used for the final submission (needs `.env`; only the app is reachable from other
+computers). `docker-compose.yml` is the plain version for trying things on one computer.
 
 ## Run without Docker
 
@@ -13,7 +17,9 @@ Put these files in the repository root (next to `data/`):
     # metrics  http://127.0.0.1:8000/metrics
 
 The first start trains the selected Random Forest (about 5 seconds) and saves it in `artifacts/`.
-`prepare.py` prints the cross-validated macro-F1 (0.3692, the same number as the README) so you can see it matches.
+`prepare.py` prints the cross-validated macro-F1 so you can see it matches the README: **0.4292 on the default v2 label**, 0.3692 on the
+v1 label of Milestone 4 (`SUBSIDENCE_DATA=data/subsidence_dataset_processed.csv python app.py`). The model is cached together with the
+label version, so changing the data path retrains automatically.
 Add `artifacts/` and `feedback/` to `.gitignore`: `artifacts/` is generated and `feedback/` holds users' comments.
 
 ## Run the app with Prometheus and Grafana (Docker)
@@ -25,11 +31,14 @@ Add `artifacts/` and `feedback/` to `.gitignore`: `artifacts/` is generated and 
 | Gradio app | http://localhost:7860 |
 | Raw metrics from the app | http://localhost:8000/metrics |
 | Prometheus | http://localhost:9090 (Status > Targets should show `subsidence-app` as UP) |
-| Grafana | http://localhost:3000 (login admin / admin, or just view it anonymously) |
+| Grafana | http://localhost:3000 (plain compose file: admin / admin or anonymous view; hardened file: admin and your `GRAFANA_PASSWORD`) |
 
 Grafana opens on the dashboard "Subsidence susceptibility app" because the data source and the dashboard are
 provisioned from `grafana/`. Click around in the app for a minute, then watch the panels move (they refresh every 5 s).
 Stop with `docker compose down`.
+
+The hardened file (`docker compose -f docker-compose.vm.yml up -d --build`) publishes only port 7860 to other computers; the metrics (8000),
+Prometheus (9090) and Grafana (3000) ports are bound to 127.0.0.1, and it refuses to start without `REVIEW_CODE` and `GRAFANA_PASSWORD` in `.env`.
 
 Only the app on its own (no monitoring):
 
@@ -52,7 +61,7 @@ Only the app on its own (no monitoring):
 | `subsidence_feedback_rating` | Feedback in the database by rating (all time) | `rating` |
 | `subsidence_request_seconds` | Histogram of handler time | `handler` |
 | `subsidence_errors_total` | Exceptions raised in a handler | `handler` |
-| `subsidence_model_cv_macro_f1`, `subsidence_model_info` | Which model is being served | |
+| `subsidence_model_cv_macro_f1`, `subsidence_model_info` | Which model and which label version (`label_version`: v1 or v2) is being served | `label_version` |
 
 Labels only hold short fixed values. Cell IDs and feedback comments are never used as labels (every new label value
 creates a new time series in Prometheus). Comments are stored in the feedback database (next section).
@@ -79,6 +88,28 @@ a bad direction, so a person decides what to change. The database is `feedback/f
 the `feedback-data` volume, so it survives `docker compose down` and rebuilds; `docker compose down -v` deletes it. To copy the
 file out: `docker compose cp subsidence-app:/app/feedback/feedback.db .`
 
+## Alerts (monitoring plan, Section 9.2 to 9.4)
+
+`alerts.yml` holds five rules that Prometheus evaluates every 15 seconds (open http://127.0.0.1:9090/alerts). Each has an expected range and a
+`response` annotation that says what the operator does. There is no pager or e-mail; someone has to look at the page.
+
+| Alert | Signal | Fires when |
+|---|---|---|
+| `SubsidenceAppDown` | availability | the app's metrics endpoint cannot be scraped for 1 minute |
+| `SubsidenceHandlerErrors` | errors | any handler raised an exception in the last 10 minutes |
+| `SubsidenceSlowResponses` | latency | 95th percentile of handler time above 1 s for 5 minutes |
+| `SubsidenceConfidenceShift` | what the model outputs | outside 38% to 88% of the predictions shown in 5 minutes have confidence below 0.4 (at least 40 shown) |
+| `SubsidenceNegativeFeedback` | user feedback | more than half of at least 10 feedback entries in 7 days are "Bad" |
+
+To see them work, run a deliberate failure (the stack must be up): `python tests/inject_failure.py db_lock`, `drift` or `down`.
+
+## Tests
+
+`python tests/deployed_tests.py` (24 checks: valid, edge, malformed, integration, security; set `REVIEW_CODE` to the code in `.env`),
+`python tests/latency.py` (end-to-end timings from the client) and `python tests/inject_failure.py` (above). Results are written next to the
+scripts as JSON. The `*_sandbox_python_app.json` files in `tests/` come from a run of `python app.py` in a development container, not from
+the Docker stack; they only show that the scripts work. Run them against your own stack and use those results.
+
 ## What the app does
 
 - Map tab: three layers (observed InSAR class, model prediction, model confidence). Click a cell for its class, the
@@ -90,6 +121,6 @@ file out: `docker compose cp subsidence-app:/app/feedback/feedback.db .`
 
 ## Files it reads
 
-- `data/subsidence_dataset_processed.csv` (required) and `data/label_build_log.json` (optional, for the class cut points)
+- `data/v2/subsidence_dataset_processed.csv` (required, the default) and `data/v2/label_build_log.json` (optional, for the class cut points and the label description); the v1 files in `data/` are used when `SUBSIDENCE_DATA` points to them
 - Set `SUBSIDENCE_DATA` or `SUBSIDENCE_ARTIFACTS` to use other paths; set `PORT` for the Gradio port,
   `METRICS_PORT` for the metrics port, `FEEDBACK_DB` for the feedback database file and `REVIEW_CODE` for the Review tab code.

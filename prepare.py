@@ -2,10 +2,12 @@
 
 Model = the one selected in Milestone 4: Random Forest, 100 trees, min_samples_leaf=5, seed 42, same
 preprocessing as selected_rf_error_analysis.py.
+Label: SUBSIDENCE_DATA chooses it. data/v2/... (default) is the reset-aware label, data/subsidence_dataset_processed.csv is
+the label as built for Milestone 4 (v1). The model, folds and inputs are identical; only the outcome label differs.
 
 How the prediction for each cell is made (so the app never shows a score the model has already seen):
   * labeled training cells -> out-of-fold prediction (5-fold, whole 5 km blocks held out), the same folds
-    that give the macro-F1 of 0.369 in the README
+    that give the macro-F1 reported in the README
   * labeled test cells and cells with no InSAR label -> the model fitted on all training cells
 
 Run:  python prepare.py          (app.py also runs it automatically when artifacts/ is missing)
@@ -29,7 +31,7 @@ from sklearn.preprocessing import OneHotEncoder
 
 warnings.filterwarnings("ignore")
 
-DATA = os.environ.get("SUBSIDENCE_DATA", "data/subsidence_dataset_processed.csv")
+DATA = os.environ.get("SUBSIDENCE_DATA", "data/v2/subsidence_dataset_processed.csv")   # v2 = reset-aware label (default); v1 = data/subsidence_dataset_processed.csv
 OUT = os.environ.get("SUBSIDENCE_ARTIFACTS", "artifacts")
 SEED = 42
 CLASSES = ["very_low", "low", "moderate", "high", "very_high"]
@@ -69,7 +71,7 @@ def build(force=False):
 
     if not force and all(os.path.exists(p) for p in (meta_path, pred_path, model_path)):
         meta = json.load(open(meta_path))
-        if meta.get("data_sha256") == digest and meta.get("sklearn") == sklearn.__version__:
+        if meta.get("data_sha256") == digest and meta.get("sklearn") == sklearn.__version__ and "label_version" in meta:
             return meta
 
     df = pd.read_csv(DATA)
@@ -115,6 +117,7 @@ def build(force=False):
             "n_test_cells": int((labeled & (df.split == "test")).sum()),
             "n_unlabeled": int((~labeled).sum()),
             "cutpoints": log.get("cutpoints_from_train_only"),
+            "label_version": log.get("label_version", "v1"), "label_method": log.get("label_method"),
             "window": [log.get("settings", {}).get("START"), log.get("settings", {}).get("END")]}
     json.dump(meta, open(meta_path, "w"), indent=2)
     return meta
@@ -122,5 +125,5 @@ def build(force=False):
 
 if __name__ == "__main__":
     m = build(force=True)
-    print("out-of-fold macro-F1: %.4f (README reports 0.369 at seed 42)" % m["oof_macro_f1"])
+    print("label %s, out-of-fold macro-F1: %.4f (README: 0.3692 for v1, 0.4292 for v2, seed 42)" % (m["label_version"], m["oof_macro_f1"]))
     print(m)
