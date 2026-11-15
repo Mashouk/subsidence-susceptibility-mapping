@@ -83,6 +83,22 @@
    "committed_in_repo": false,
    "sha256": "59d6153b78a86536dc6563fc29a7d8c97a0bfaa479d87cf4603dacd2a71ce163",
    "bytes": null
+  },
+  {
+   "path": "data/v2/subsidence_dataset_processed.csv",
+   "role": "the reset-aware outcome label (v2), written by build_label_v2.py",
+   "source": "build_label_v2.py, 2026-11-15",
+   "committed_in_repo": true,
+   "sha256": "6d768c7e35e1d07381c256e79aa847e36accf6ec89718f31664378a5a43cc27b",
+   "bytes": 1828025
+  },
+  {
+   "path": "data/v2/label_build_log.json",
+   "role": "settings and counts for the v2 label build",
+   "source": "build_label_v2.py, 2026-11-15",
+   "committed_in_repo": true,
+   "sha256": "96eb5e7e1519742695b930d2dd6100493f5640ce8a216383ec8db609d26507a5",
+   "bytes": 1510
   }
  ]
 }

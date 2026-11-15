@@ -1,0 +1,36 @@
+label v2: 2193 development cells in 40 blocks; class counts [439, 438, 439, 438, 439]
+selected forest, out-of-fold macro-F1 0.4292
+{
+  "definition": "median over the cell's InSAR points of the within-segment slope of readings dated 2019-07-07 to 2019-12-26 (at least 10 readings per point); only readings before the 2019-12-31 predictor cutoff; 6 months, so it carries the seasonal cycle",
+  "dev_cells_with_proxy": 1994,
+  "dev_cells": 2193,
+  "spearman_proxy_vs_label": 0.5002990541564339
+}
+
+A. HIT RATE AT K (development cells, out of fold)
+  all_development_cells: 2193 cells
+   random                        top5%: hit 0.200 capture 0.050  top10%: hit 0.200 capture 0.100  top20%: hit 0.200 capture 0.200
+   random_forest_P_top_class     top5%: hit 0.382 capture 0.096  top10%: hit 0.374 capture 0.187  top20%: hit 0.360 capture 0.360
+   two_indicator_P_top_class     top5%: hit 0.382 capture 0.096  top10%: hit 0.205 capture 0.103  top20%: hit 0.166 capture 0.166
+   random_forest_expected_class  top5%: hit 0.345 capture 0.087  top10%: hit 0.342 capture 0.171  top20%: hit 0.346 capture 0.346
+   two_indicator_expected_class  top5%: hit 0.182 capture 0.046  top10%: hit 0.210 capture 0.105  top20%: hit 0.139 capture 0.139
+   persistence_late2019          
+  cells_with_persistence_proxy: 1994 cells
+   random                        top5%: hit 0.196 capture 0.050  top10%: hit 0.196 capture 0.100  top20%: hit 0.196 capture 0.200
+   random_forest_P_top_class     top5%: hit 0.360 capture 0.092  top10%: hit 0.377 capture 0.192  top20%: hit 0.348 capture 0.355
+   two_indicator_P_top_class     top5%: hit 0.370 capture 0.095  top10%: hit 0.196 capture 0.100  top20%: hit 0.163 capture 0.166
+   random_forest_expected_class  top5%: hit 0.330 capture 0.084  top10%: hit 0.342 capture 0.174  top20%: hit 0.341 capture 0.348
+   two_indicator_expected_class  top5%: hit 0.190 capture 0.049  top10%: hit 0.211 capture 0.107  top20%: hit 0.135 capture 0.138
+   persistence_late2019          top5%: hit 0.440 capture 0.113  top10%: hit 0.387 capture 0.197  top20%: hit 0.363 capture 0.371
+  forest minus two-indicator, bootstrap 95% interval: {'top5%': [-0.182, 0.446], 'top10%': [-0.025, 0.327], 'top20%': [0.089, 0.298]}
+
+B. MAP CONFIDENCE STATES
+  confidence>=0.4: covers 43.9% (963 cells), 396 wrong (accuracy 0.589, within one 0.860); errors fall in 35 of 38 blocks that have accepted cells; worst 2 blocks hold 14%
+  confidence>=0.5: covers 20.8% (456 cells), 87 wrong (accuracy 0.809, within one 0.956); errors fall in 19 of 25 blocks that have accepted cells; worst 2 blocks hold 29%
+  confidence>=0.65: covers 12.5% (275 cells), 21 wrong (accuracy 0.924, within one 1.000); errors fall in 5 of 7 blocks that have accepted cells; worst 2 blocks hold 76%
+  confidence>=0.8: covers 8.0% (176 cells), 1 wrong (accuracy 0.994, within one 1.000); errors fall in 1 of 4 blocks that have accepted cells; worst 2 blocks hold 100%
+  per block (20+ cells): {"blocks": 37, "mean_gap_conf_minus_accuracy_min_median_max": [-0.3551127717435952, 0.02723608792546528, 0.23719052232867652], "blocks_overconfident_by_0.10_or_more": 9, "blocks_underconfident_by_0.10_or_more": 6}
+  support rule, label internal agreement: {"2": 0.0, "3-5": 0.55, "6-10": 0.6458333333333333, "11+": 0.75}
+  ten partitions: {"support_ge3_better_than_lt3_in_partitions": 10, "accuracy_gap_ge3_minus_lt3_min_mean_max": [0.1012255783291382, 0.11699808222461942, 0.13328239242478723], "accuracy_when_conf_ge_0.65_min_mean_max": [0.9285714285714286, 0.9461794535177239, 0.9830508474576272], "cells_when_conf_ge_0.65_min_mean_max": [236, 283.9, 310], "macro_F1_min_mean_max": [0.39559535844571986, 0.4116223415911163, 0.43594131393364755]}
+
+Saved evidence/ranking_and_confidence_v2.json and evidence/development_oof_predictions_v2.csv

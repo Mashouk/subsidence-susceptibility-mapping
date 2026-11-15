@@ -1,0 +1,49 @@
+{
+ "note": "Snapshot of a local Prometheus (not the Docker stack) scraping python app.py in a development container, taken 2026-11-15. It shows the alert mechanism and the rules in alerts.yml working; it is not a measurement of the deployed system and not real user traffic.",
+ "taken_at": "2026-11-15T16:15:12",
+ "events": [
+  {
+   "alert": "SubsidenceConfidenceShift",
+   "state": "firing",
+   "first_seen": "16:11:57",
+   "last_seen": "16:15:12",
+   "samples": 14
+  },
+  {
+   "alert": "SubsidenceAppDown",
+   "state": "firing",
+   "first_seen": "16:13:12",
+   "last_seen": "16:13:27",
+   "samples": 2
+  },
+  {
+   "alert": "SubsidenceAppDown",
+   "state": "pending",
+   "first_seen": "16:12:12",
+   "last_seen": "16:12:57",
+   "samples": 4
+  }
+ ],
+ "share_below_0.4_5m_window": [
+  [
+   "16:11:42",
+   0.93
+  ],
+  [
+   "16:12:42",
+   0.933
+  ],
+  [
+   "16:13:42",
+   0.933
+  ],
+  [
+   "16:14:42",
+   0.933
+  ]
+ ],
+ "up_zero_from_to": [
+  "16:12:12",
+  "16:13:12"
+ ]
+}

@@ -1,0 +1,213 @@
+{
+  "points": 101843,
+  "usable_points": 52628,
+  "A_traceability": {
+    "cells_labeled_stored": 3539,
+    "cells_labeled_rebuilt": 3539,
+    "same_cells_labeled": true,
+    "max_abs_label_difference": 0.0,
+    "n_points_identical_in_all_cells": true
+  },
+  "B_trend_vs_observed": {
+    "points": 52628,
+    "median_abs_difference_mm": 67.2014272894516,
+    "p90_abs_difference_mm": 222.43925956555293,
+    "median_signed_difference_mm": 30.19509352798582,
+    "spearman_observed_vs_trend": 0.9420633292468047,
+    "median_R2_note": "see insar_label.ipynb Step 2 (0.90)",
+    "cell_spearman_observed_vs_label": 0.8837258254323289,
+    "cell_class_agreement_observed_vs_label": 0.6332297259112744,
+    "cell_class_within_one": 0.8934727324102854
+  },
+  "C_by_support": {
+    "1 point": {
+      "cells": 476,
+      "median_share_of_points_in_the_cell_class": 1.0,
+      "share_of_cells_where_points_span_3plus_classes": 0.0,
+      "median_IQR_mm": null
+    },
+    "2 points": {
+      "cells": 389,
+      "median_share_of_points_in_the_cell_class": 0.5,
+      "share_of_cells_where_points_span_3plus_classes": 0.0,
+      "median_IQR_mm": 155.90790276287876
+    },
+    "3-5 points": {
+      "cells": 836,
+      "median_share_of_points_in_the_cell_class": 0.6,
+      "share_of_cells_where_points_span_3plus_classes": 0.430622009569378,
+      "median_IQR_mm": 442.4509207787492
+    },
+    "6-10 points": {
+      "cells": 690,
+      "median_share_of_points_in_the_cell_class": 0.5,
+      "share_of_cells_where_points_span_3plus_classes": 0.7681159420289855,
+      "median_IQR_mm": 574.6225102483336
+    },
+    "11+ points": {
+      "cells": 1148,
+      "median_share_of_points_in_the_cell_class": 0.6111111111111112,
+      "share_of_cells_where_points_span_3plus_classes": 0.7412891986062717,
+      "median_IQR_mm": 158.02516156329187
+    }
+  },
+  "C_reliability_cells_with_6plus_points": {
+    "cells": 1838,
+    "split_half_spearman": 0.5665899929913701,
+    "split_half_spearman_corrected_to_full_length": 0.7233417748436892,
+    "split_half_class_agreement": 0.5593906420021764,
+    "one_point_vs_median_of_the_rest_spearman": 0.46089948775738143,
+    "one_point_vs_median_of_the_rest_class_agreement": 0.5509463313456054,
+    "one_point_vs_median_of_the_rest_sign_agreement": 0.7601022260083706
+  },
+  "D_label_vs_VEL_V": {
+    "cells": 3539,
+    "spearman_label_vs_median_VEL_V": 0.04384283456738387,
+    "same_sign_share": 0.5611754732975417,
+    "median_label_over_VEL_V_times_window_years": 0.06838176444130493
+  },
+  "E_emulated_raster": {
+    "idw_power1_all_points": {
+      "cells_with_value": 3174,
+      "spearman_all_labeled_cells": 0.5953409117942683,
+      "spearman_cells_with_5plus_points": 0.6374640277685354,
+      "cells_5plus_points_and_change_over_0.2ft": 1877,
+      "median_ratio_label_over_change": 0.7845131752433245,
+      "same_sign_share": 0.8055407565263719
+    },
+    "idw_power1_usable_points_only": {
+      "cells_with_value": 3174,
+      "spearman_all_labeled_cells": 0.5953409117942683,
+      "spearman_cells_with_5plus_points": 0.6374640277685354,
+      "cells_5plus_points_and_change_over_0.2ft": 1877,
+      "median_ratio_label_over_change": 0.7845131752433245,
+      "same_sign_share": 0.8055407565263719
+    },
+    "idw_power2_all_points": {
+      "cells_with_value": 3174,
+      "spearman_all_labeled_cells": 0.597385225606623,
+      "spearman_cells_with_5plus_points": 0.6290999503476985,
+      "cells_5plus_points_and_change_over_0.2ft": 1915,
+      "median_ratio_label_over_change": 0.4365699509648533,
+      "same_sign_share": 0.7822454308093995
+    },
+    "idw_power2_usable_points_only": {
+      "cells_with_value": 3174,
+      "spearman_all_labeled_cells": 0.597385225606623,
+      "spearman_cells_with_5plus_points": 0.6290999503476985,
+      "cells_5plus_points_and_change_over_0.2ft": 1915,
+      "median_ratio_label_over_change": 0.4365699509648533,
+      "same_sign_share": 0.7822454308093995
+    },
+    "idw_power3_all_points": {
+      "cells_with_value": 3174,
+      "spearman_all_labeled_cells": 0.5889304021175624,
+      "spearman_cells_with_5plus_points": 0.612621457376423,
+      "cells_5plus_points_and_change_over_0.2ft": 1938,
+      "median_ratio_label_over_change": 0.2833928444021704,
+      "same_sign_share": 0.7693498452012384
+    },
+    "idw_power3_usable_points_only": {
+      "cells_with_value": 3174,
+      "spearman_all_labeled_cells": 0.5889304021175624,
+      "spearman_cells_with_5plus_points": 0.612621457376423,
+      "cells_5plus_points_and_change_over_0.2ft": 1938,
+      "median_ratio_label_over_change": 0.2833928444021704,
+      "same_sign_share": 0.7693498452012384
+    }
+  },
+  "F_reference_column": {
+    "D20150101_share_empty": 1.0,
+    "D20150101_nonempty_points": 0,
+    "D20150101_nonempty_values_range": null,
+    "points_with_any_reading_2019-07-07_to_2019-12-26": 41024
+  },
+  "G_restart_after_gap": {
+    "gaps_of_30_days_or_more": 45759,
+    "shortest_gap_days": 96,
+    "readings_right_after_a_gap_that_are_exactly_0": 1.0,
+    "readings_right_before_a_gap_that_are_exactly_0": 0.0001529753709652746,
+    "median_value_before_gap_mm": -390.7,
+    "median_gap_days": 384.0,
+    "first_reading_of_each_point_exactly_0_share": 0.5959619835524695
+  },
+  "H_reset_effect_on_points": {
+    "points_with_a_reset_inside_the_window_all": 0.24224541696532897,
+    "points_with_a_reset_inside_the_window_usable_v1": 0.4231967773808619,
+    "usable_v1_points_with_an_upward_step_ge_150mm": 0.3850991867446986,
+    "usable_v1_points_with_an_upward_step_ge_300mm": 0.2617427985102987,
+    "median_window_total_mm_usable_v1_without_reset": -681.8324542643029,
+    "median_window_total_mm_usable_v1_with_reset": 64.88472440956163,
+    "spearman_slope_vs_VEL_V_usable_v1_without_reset": 0.880846577169174,
+    "spearman_slope_vs_VEL_V_usable_v1_with_reset": -0.15512838711350294,
+    "usable_v2_points": 40583,
+    "usable_v2_share": 0.3984859047749968,
+    "spearman_point_slope_v2_vs_VEL_V": 0.868270423029792,
+    "spearman_point_slope_v2_vs_VEL_V_points_with_reset": 0.801534211701754,
+    "median_slope_per_yr_v2": -149.6532934401401
+  },
+  "H_label_v1_vs_v2": {
+    "cells_labeled_v1": 3539,
+    "cells_labeled_v2": 3015,
+    "cells_labeled_in_both": 3015,
+    "cut_points_v1": [
+      -91.24081529480138,
+      -20.95931510513884,
+      268.0284192680018,
+      654.5324537705515
+    ],
+    "cut_points_v2_from_training_cells": [
+      577.5845630943986,
+      788.538785627992,
+      922.2478396088192,
+      1047.0455574086777
+    ],
+    "spearman_v1_vs_v2_label": -0.20635283317736897,
+    "same_class_v1_v2": 0.12271973466003316,
+    "within_one_class_v1_v2": 0.38474295190713104,
+    "share_of_cells_sinking_v1": 0.5611754732975417,
+    "share_of_cells_sinking_v2": 0.9907131011608623,
+    "median_label_mm_v1": 43.30191167229963,
+    "median_label_mm_v2": 881.5835696010381,
+    "spearman_with_cell_median_VEL_V_v1": -0.03989726333874899,
+    "spearman_with_cell_median_VEL_V_v2": 0.8541462957424154,
+    "train_cells_v2": 2193,
+    "test_cells_v2": 822,
+    "reset_share_by_v1_class": {
+      "very_low": {
+        "cells": 711,
+        "mean_share_of_usable_points_with_a_reset": 0.9070293967115312
+      },
+      "low": {
+        "cells": 684,
+        "mean_share_of_usable_points_with_a_reset": 0.8580551830113146
+      },
+      "moderate": {
+        "cells": 703,
+        "mean_share_of_usable_points_with_a_reset": 0.7257766125133165
+      },
+      "high": {
+        "cells": 672,
+        "mean_share_of_usable_points_with_a_reset": 0.3094865189101414
+      },
+      "very_high": {
+        "cells": 769,
+        "mean_share_of_usable_points_with_a_reset": 0.19777472152386488
+      }
+    },
+    "spearman_v1_label_vs_reset_share": -0.7968845500133178,
+    "spearman_v2_label_vs_reset_share": 0.4325602761131336,
+    "leave_one_out_class_agreement_by_support_v1": {
+      "2": 0.0,
+      "3-5": 0.2,
+      "6-10": 0.3333333333333333,
+      "11+": 0.6111111111111112
+    },
+    "leave_one_out_class_agreement_by_support_v2": {
+      "2": 0.0,
+      "3-5": 0.6,
+      "6-10": 0.6666666666666666,
+      "11+": 0.75
+    }
+  }
+}

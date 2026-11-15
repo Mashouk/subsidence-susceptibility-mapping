@@ -1,0 +1,248 @@
+{
+  "app": "http://127.0.0.1:7860",
+  "run_at": "2026-11-15T16:15:34",
+  "data": "data/v2/subsidence_dataset_processed.csv",
+  "passed": 24,
+  "total": 24,
+  "results": [
+    {
+      "id": "V1",
+      "kind": "valid",
+      "test": "id search for a well-supported labeled cell returns details, probabilities and inputs",
+      "passed": true,
+      "note": "TC-00289: Low",
+      "seconds": 0.42
+    },
+    {
+      "id": "V2",
+      "kind": "valid",
+      "test": "latitude/longitude of that cell's centre finds the same cell",
+      "passed": true,
+      "note": "",
+      "seconds": 0.4
+    },
+    {
+      "id": "V3",
+      "kind": "valid",
+      "test": "all three map layers redraw with their own legend",
+      "passed": true,
+      "note": "",
+      "seconds": 0.71
+    },
+    {
+      "id": "V4",
+      "kind": "valid",
+      "test": "'Try the model' with a changed groundwater trend returns both probability sets",
+      "passed": true,
+      "note": "",
+      "seconds": 0.15
+    },
+    {
+      "id": "E1",
+      "kind": "edge",
+      "test": "lower-case ID with spaces is normalised",
+      "passed": true,
+      "note": "",
+      "seconds": 0.3
+    },
+    {
+      "id": "E2",
+      "kind": "edge",
+      "test": "cell with no InSAR label says so and still gives a model estimate",
+      "passed": true,
+      "note": "",
+      "seconds": 0.34
+    },
+    {
+      "id": "E3",
+      "kind": "edge",
+      "test": "cell whose label rests on 1-2 points carries the low-support warning",
+      "passed": true,
+      "note": "",
+      "seconds": 0.31
+    },
+    {
+      "id": "E4",
+      "kind": "edge",
+      "test": "coordinates outside the study grid give a clear message, not an error",
+      "passed": true,
+      "note": "",
+      "seconds": 0.26
+    },
+    {
+      "id": "E5",
+      "kind": "edge",
+      "test": "coordinates in the open sea / extreme values do not crash the lookup",
+      "passed": true,
+      "note": "",
+      "seconds": 0.25
+    },
+    {
+      "id": "E6",
+      "kind": "edge",
+      "test": "'Try the model' with no cell selected asks for a cell",
+      "passed": true,
+      "note": "",
+      "seconds": 0.09
+    },
+    {
+      "id": "M1",
+      "kind": "malformed",
+      "test": "empty ID gives the help message",
+      "passed": true,
+      "note": "",
+      "seconds": 0.24
+    },
+    {
+      "id": "M2",
+      "kind": "malformed",
+      "test": "unknown ID (TC-99999) is rejected with the help message and counted as invalid",
+      "passed": true,
+      "note": "",
+      "seconds": 0.25
+    },
+    {
+      "id": "M3",
+      "kind": "malformed",
+      "test": "a 10,000-character ID is rejected in under 2 s without an error",
+      "passed": true,
+      "note": "0.25 s",
+      "seconds": 0.25
+    },
+    {
+      "id": "M4",
+      "kind": "malformed",
+      "test": "SQL and HTML text in the ID field is treated as an unknown ID",
+      "passed": true,
+      "note": "",
+      "seconds": 0.85
+    },
+    {
+      "id": "M5",
+      "kind": "malformed",
+      "test": "missing coordinates are rejected politely",
+      "passed": true,
+      "note": "",
+      "seconds": 0.23
+    },
+    {
+      "id": "M6",
+      "kind": "malformed",
+      "test": "feedback without a Good/Bad choice is refused and nothing is saved",
+      "passed": true,
+      "note": "",
+      "seconds": 0.1
+    },
+    {
+      "id": "M7",
+      "kind": "malformed",
+      "test": "a rating that is not on the list is refused by the API",
+      "passed": true,
+      "note": "refused: Value: 'Awful' (type: <class 'str'>) is not in the list of choices: ['Good', 'Ba",
+      "seconds": 0.1
+    },
+    {
+      "id": "I1",
+      "kind": "integration",
+      "test": "feedback travels app -> SQLite -> review tab -> public 'what we did' list -> CSV export",
+      "passed": true,
+      "note": "feedback #7",
+      "seconds": 0.58
+    },
+    {
+      "id": "I2",
+      "kind": "integration",
+      "test": "the metrics page counted every valid and invalid lookup made above",
+      "passed": true,
+      "note": "id_search lookups +4, invalid +7",
+      "seconds": 0.02
+    },
+    {
+      "id": "I3",
+      "kind": "integration",
+      "test": "Prometheus scrapes the app (target up) and returns the same counter",
+      "passed": true,
+      "note": "target up, counter present",
+      "seconds": 6.01
+    },
+    {
+      "id": "S1",
+      "kind": "security",
+      "test": "wrong review code returns no feedback",
+      "passed": true,
+      "note": "",
+      "seconds": 1.11
+    },
+    {
+      "id": "S2",
+      "kind": "security",
+      "test": "a 100,000-character comment is cut to 500 characters on the server",
+      "passed": true,
+      "note": "stored 500 characters",
+      "seconds": 0.27
+    },
+    {
+      "id": "S3",
+      "kind": "security",
+      "test": "HTML typed into a comment is shown as text in the review table",
+      "passed": true,
+      "note": "",
+      "seconds": 0.27
+    },
+    {
+      "id": "S4",
+      "kind": "security",
+      "test": "a comment containing SQL is stored as plain text and the table still exists",
+      "passed": true,
+      "note": "",
+      "seconds": 0.18
+    }
+  ],
+  "call_seconds": {
+    "/on_id_search": {
+      "n": 11,
+      "median": 0.25030535099995177,
+      "max": 0.417247714000041
+    },
+    "/on_lookup": {
+      "n": 4,
+      "median": 0.26025708600036523,
+      "max": 0.40204002299969943
+    },
+    "/on_layer": {
+      "n": 3,
+      "median": 0.1872225739998612,
+      "max": 0.33468324100022073
+    },
+    "/whatif": {
+      "n": 2,
+      "median": 0.14584905899982914,
+      "max": 0.14584905899982914
+    },
+    "/submit_feedback": {
+      "n": 5,
+      "median": 0.09507527199957622,
+      "max": 0.17038118700020277
+    },
+    "/review_load": {
+      "n": 4,
+      "median": 0.09641414099996837,
+      "max": 1.1076796239999567
+    },
+    "/review_save": {
+      "n": 1,
+      "median": 0.09109953100005441,
+      "max": 0.09109953100005441
+    },
+    "/outcomes_md": {
+      "n": 1,
+      "median": 0.0946554769998329,
+      "max": 0.0946554769998329
+    },
+    "/review_export": {
+      "n": 2,
+      "median": 0.21109517900003993,
+      "max": 0.21109517900003993
+    }
+  }
+}

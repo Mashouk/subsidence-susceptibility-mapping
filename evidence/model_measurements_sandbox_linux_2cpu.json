@@ -1,0 +1,67 @@
+{
+  "measured_at": "2026-11-15T15:47:14",
+  "machine": {
+    "platform": "Linux-6.18.44-fc-v470-x86_64-with-glibc2.39",
+    "processor": "x86_64",
+    "logical_cpus": 2,
+    "python": "3.12.3",
+    "scikit_learn": "1.9.1",
+    "numpy": "2.5.4",
+    "pandas": "3.1.1"
+  },
+  "data": {
+    "path": "data/subsidence_dataset_processed.csv",
+    "development_cells": 2572,
+    "grid_cells": 5192
+  },
+  "note": "single process, n_jobs=1, as in prepare.py",
+  "run2_selected_min_samples_leaf_5": {
+    "fit_seconds_per_fold_median": 0.38734047299999474,
+    "fit_seconds_per_fold_all": [
+      0.38734047299999474,
+      0.38610610500018083,
+      0.4243890370000827,
+      0.48143244499988214,
+      0.3729945160000625
+    ],
+    "full_fit_seconds_median_of_5": 0.5015019639999991,
+    "full_fit_seconds_all": [
+      0.546700138999995,
+      0.4865010829998937,
+      0.48713358800000606,
+      0.5316729539999869,
+      0.5015019639999991
+    ],
+    "saved_model_MB": 3.105283,
+    "load_seconds_median": 0.0257465320000847,
+    "whole_grid_predict_seconds_median_of_20": 0.051467737500047406,
+    "per_cell_ms_in_grid_call": 0.009912892430671689,
+    "single_cell_predict_ms_median_of_200": 9.001931999932822,
+    "single_cell_predict_ms_p95": 9.61731624989852
+  },
+  "run1_min_samples_leaf_1": {
+    "fit_seconds_per_fold_median": 0.9375149869999859,
+    "fit_seconds_per_fold_all": [
+      0.9375149869999859,
+      0.859662667000066,
+      0.9566475650001394,
+      0.9105085149999468,
+      0.9977261050000834
+    ],
+    "full_fit_seconds_median_of_5": 1.1594602709999435,
+    "full_fit_seconds_all": [
+      1.2099501770001098,
+      1.2862480739997864,
+      1.1123754140000983,
+      1.1179239119999238,
+      1.1594602709999435
+    ],
+    "saved_model_MB": 23.385075,
+    "load_seconds_median": 0.03836386299985861,
+    "whole_grid_predict_seconds_median_of_20": 0.0855469709999852,
+    "per_cell_ms_in_grid_call": 0.01647668932973521,
+    "single_cell_predict_ms_median_of_200": 8.805946000052245,
+    "single_cell_predict_ms_p95": 13.020480799946197
+  },
+  "peak_resident_memory_MB_of_this_process": 232.30859375
+}

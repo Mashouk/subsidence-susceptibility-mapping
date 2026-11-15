@@ -1,0 +1,36 @@
+macro-F1 on v1 label: 0.3692 (must equal 0.3692)
+{
+  "dev_cells_v1": 2572,
+  "macro_F1_v1_label": 0.36920717207273623,
+  "ranking_score_vs_v1_label_spearman": 0.29190014325296904,
+  "ranking_score_vs_reset_share_spearman_negative_means_more_resets_rank_lower": -0.34114582712694447,
+  "dev_cells_with_both_labels": 2193,
+  "ranking_score_vs_v2_label_spearman_cells_with_both": -0.3704151841540204,
+  "ranking_score_vs_DWR_VEL_V_spearman_cells_with_both": -0.3723502953610328,
+  "ranking_score_vs_v2_label_after_removing_reset_share": -0.2619034053535449,
+  "v1_label_vs_reset_share_spearman": -0.7898339672972209,
+  "v2_label_vs_reset_share_spearman": 0.46684903930783106
+}
+{
+  "out_of_fold_spearman_predicted_vs_actual_reset_share": 0.34371770356712145,
+  "out_of_fold_R2": 0.1573655415365417
+}
+{
+  "dev_cells_v2": 2193,
+  "v2_cut_points_from_dev_cells_mm": [
+    577.5845630943986,
+    788.538785627992,
+    922.2478396088192,
+    1047.0455574086777
+  ],
+  "macro_F1_v2_label": 0.4291559125306409,
+  "accuracy": 0.43091655266757867,
+  "within_one_class": 0.7628818969448244,
+  "two_indicator_rule_macro_F1": 0.21221217164593448,
+  "chance_macro_F1_approx": 0.2,
+  "ranking_score_vs_v2_label_spearman": 0.6028698671240798,
+  "ranking_score_vs_DWR_VEL_V_spearman": 0.6593923344037701,
+  "ranking_score_vs_reset_share_spearman": 0.23820932848145238,
+  "ranking_score_vs_v2_label_after_removing_reset_share": 0.5724453564363268
+}
+Saved evidence/label_artifact_model_check.json

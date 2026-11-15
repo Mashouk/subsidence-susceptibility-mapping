@@ -1337,6 +1337,78 @@
           "sort": "desc"
         }
       }
+    },
+    {
+      "id": 21,
+      "type": "timeseries",
+      "title": "Share of predictions shown with confidence below 0.4 (5 min) - alert range 0.38 to 0.88",
+      "description": "Signal 4 in the monitoring plan (alerts.yml, SubsidenceConfidenceShift). Over the whole grid 63% of cells have confidence below 0.4. The alert fires outside 0.38-0.88 once at least 40 predictions were shown in the 5-minute window.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 48,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum(increase(subsidence_prediction_confidence_bucket{le=\"0.4\"}[5m])) / sum(increase(subsidence_prediction_confidence_count[5m]))",
+          "legendFormat": "share below 0.4",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "vector(0.88)",
+          "legendFormat": "upper limit",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "vector(0.38)",
+          "legendFormat": "lower limit",
+          "refId": "C"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "custom": {
+            "lineWidth": 2,
+            "fillOpacity": 15,
+            "showPoints": "auto",
+            "spanNulls": true,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
     }
   ],
   "annotations": {
