@@ -1,0 +1,32 @@
+{
+  "crs_is_EPSG_5070": true,
+  "shape": [
+    5,
+    59,
+    88
+  ],
+  "cell_size_m": [
+    500.0,
+    500.0
+  ],
+  "bounds": [
+    -2095462.0,
+    1701390.2,
+    -2051462.0,
+    1730890.2
+  ],
+  "tags_present": true,
+  "classes_in_1_to_5": true,
+  "confidence_in_0_1": true,
+  "no_nodata_cells_inside_the_grid": true,
+  "every_cell_centre_returns_its_own_class": true,
+  "map_state_counts_1_classified_2_low_conf_3_excluded": {
+    "1": 1880,
+    "2": 2894,
+    "3": 418
+  },
+  "seconds_prepare_or_reuse_model": 0.0,
+  "seconds_to_write_and_check_geotiff": 0.06,
+  "file": "exports/subsidence_susceptibility_v2_2026-11-15.tif",
+  "file_bytes": 35703
+}

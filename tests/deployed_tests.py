@@ -79,12 +79,15 @@ def _():
     assert out[1] == good.grid_id, out[1]
 
 
-@test("V3", "valid", "all three map layers redraw with their own legend")
+@test("V3", "valid", "all three map layers redraw with their own legend; the prediction and confidence legends carry the neighborhood caution")
 def _():
     want = ["Hatched: low support", "Faded: no InSAR label, model estimate only", "Model confidence (highest class probability)"]
     for lay, w in zip(LAYERS, want):
         img, leg = call("/on_layer", lay, good.grid_id)
-        assert Path(img).stat().st_size > 10_000 and w in re.sub(r"<[^>]+>", "", leg), (lay, w)
+        plain = re.sub(r"<[^>]+>", "", leg)
+        assert Path(img).stat().st_size > 10_000 and w in plain, (lay, w)
+        if lay != LAYERS[0]:
+            assert "Confident is not the same as correct" in plain, lay
 
 
 @test("V4", "valid", "'Try the model' with a changed groundwater trend returns both probability sets")

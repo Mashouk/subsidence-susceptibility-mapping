@@ -1,0 +1,10 @@
+feedback database locked for 25 s by a second process; submitting feedback for TC-00070 ...
+
+WHAT THE USER SAW after waiting 10.1 s:
+  Sorry, your feedback could not be saved. Please try again later.
+errors recorded for handler=feedback: +1
+after the lock was released the same action gives:
+   Thank you. Your feedback was saved as **#11**. The project team reads it in the Review tab
+
+watching Prometheus for alert SubsidenceHandlerErrors (up to 60 s) ...
+  SubsidenceHandlerErrors is FIRING after 0 s

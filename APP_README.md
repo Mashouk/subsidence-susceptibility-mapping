@@ -103,6 +103,10 @@ file out: `docker compose cp subsidence-app:/app/feedback/feedback.db .`
 
 To see them work, run a deliberate failure (the stack must be up): `python tests/inject_failure.py db_lock`, `drift` or `down`.
 
+## Map export for QGIS or ArcGIS
+
+`pip install -r requirements-export.txt`, then `python export_geotiff.py` from the repository root (after `prepare.py` has built `artifacts/`; the script calls it if needed). It writes `exports/subsidence_susceptibility_<label>_<date>.tif` with five bands: predicted class, confidence, map state (1 classified, 2 low confidence, 3 excluded because soil data is missing), observed class and number of InSAR points behind the label. The check it prints is saved to `evidence/geotiff_export_check.json`. The app does not need `rasterio`; only the export does.
+
 ## Tests
 
 `python tests/deployed_tests.py` (24 checks: valid, edge, malformed, integration, security; set `REVIEW_CODE` to the code in `.env`),

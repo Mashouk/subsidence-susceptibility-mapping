@@ -161,6 +161,9 @@ def legend_html(layer):
         else:
             items += sw("#8bb8f0;opacity:.45", "Faded: no InSAR label, model estimate only")
         body = f'<div style="font-weight:600;margin-bottom:4px;{INK}">Susceptibility (relative ranking)</div>' + items
+    if layer != LAYERS[0]:
+        body += (f'<div style="font-size:13px;margin-top:6px;{INK}">Confident is not the same as correct. On the cross-validated cells the '
+                 f'confident errors cluster in a few neighborhoods, so a whole area can be wrong together.</div>')
     return f'<div style="padding:10px 12px;border:1px solid #d6d6d0;border-radius:8px;background:{BG};{INK}">{body}</div>'
 
 
@@ -436,6 +439,7 @@ confidence. This app does not compute a score on the test cells.
 
 ### Limits to keep in mind
 - **Units are inferred, not confirmed.** DWR does not state the unit of the point file. Values are treated as millimetres.
+- **Confident is not the same as correct.** On the cross-validated cells the confident errors cluster in a few 5 km blocks, so a whole neighborhood can be wrong together. Read the confidence together with the observed class and the support.
 - **Thin labels:** {LOW_SUPPORT.sum() / HAS_LABEL.sum():.0%} of labeled cells rest on fewer than 3 InSAR points (hatched on the map).
 - **The label is a fitted trend**, not the observed change between two dates, and it is a constructed proxy, not measured subsidence.
   {QUALITY_TEXT}

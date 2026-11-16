@@ -1,0 +1,69 @@
+# Snapshot of http://127.0.0.1:8000/metrics from the development container (python app.py), taken 2026-11-15T23:33:25Z
+# The app had been restarted shortly before (counters start at 0): the traffic is the 24 deployed tests run twice and nothing else. Test traffic only, no real users.
+# Series ending in _created and the Python/process collector series are left out.
+subsidence_cell_requests_total{channel="map_click"} 0.0
+subsidence_cell_requests_total{channel="id_search"} 8.0
+subsidence_cell_requests_total{channel="latlon_lookup"} 2.0
+subsidence_invalid_requests_total{channel="map_click"} 0.0
+subsidence_invalid_requests_total{channel="id_search"} 14.0
+subsidence_invalid_requests_total{channel="latlon_lookup"} 6.0
+subsidence_predictions_total{predicted_class="very_low",prediction_source="cross_validated"} 0.0
+subsidence_predictions_total{predicted_class="very_low",prediction_source="fitted_on_all_training_cells"} 2.0
+subsidence_predictions_total{predicted_class="low",prediction_source="cross_validated"} 8.0
+subsidence_predictions_total{predicted_class="low",prediction_source="fitted_on_all_training_cells"} 0.0
+subsidence_predictions_total{predicted_class="moderate",prediction_source="cross_validated"} 0.0
+subsidence_predictions_total{predicted_class="moderate",prediction_source="fitted_on_all_training_cells"} 0.0
+subsidence_predictions_total{predicted_class="high",prediction_source="cross_validated"} 0.0
+subsidence_predictions_total{predicted_class="high",prediction_source="fitted_on_all_training_cells"} 0.0
+subsidence_predictions_total{predicted_class="very_high",prediction_source="cross_validated"} 0.0
+subsidence_predictions_total{predicted_class="very_high",prediction_source="fitted_on_all_training_cells"} 0.0
+subsidence_prediction_confidence_count 10.0
+subsidence_prediction_confidence_sum 3.3822355677335882
+subsidence_last_prediction_confidence 0.30628205189600477
+subsidence_low_support_views_total 2.0
+subsidence_unlabeled_views_total 2.0
+subsidence_map_layer_total{layer="Observed class (InSAR 2020-2024)"} 2.0
+subsidence_map_layer_total{layer="Model prediction"} 2.0
+subsidence_map_layer_total{layer="Model confidence"} 2.0
+subsidence_whatif_runs_total 2.0
+subsidence_whatif_class_changed_total 0.0
+subsidence_feedback_total{feedback_type="Good",predicted_class="very_low"} 0.0
+subsidence_feedback_total{feedback_type="Bad",predicted_class="very_low"} 0.0
+subsidence_feedback_total{feedback_type="Good",predicted_class="low"} 3.0
+subsidence_feedback_total{feedback_type="Bad",predicted_class="low"} 2.0
+subsidence_feedback_total{feedback_type="Good",predicted_class="moderate"} 0.0
+subsidence_feedback_total{feedback_type="Bad",predicted_class="moderate"} 0.0
+subsidence_feedback_total{feedback_type="Good",predicted_class="high"} 0.0
+subsidence_feedback_total{feedback_type="Bad",predicted_class="high"} 0.0
+subsidence_feedback_total{feedback_type="Good",predicted_class="very_high"} 0.0
+subsidence_feedback_total{feedback_type="Bad",predicted_class="very_high"} 0.0
+subsidence_feedback_status{status="New"} 11.0
+subsidence_feedback_status{status="Reviewed"} 0.0
+subsidence_feedback_status{status="Action planned"} 5.0
+subsidence_feedback_status{status="Done"} 0.0
+subsidence_feedback_status{status="No action"} 0.0
+subsidence_feedback_rating{rating="Good"} 11.0
+subsidence_feedback_rating{rating="Bad"} 5.0
+subsidence_request_seconds_count{handler="map_click"} 0.0
+subsidence_request_seconds_sum{handler="map_click"} 0.0
+subsidence_request_seconds_count{handler="id_search"} 22.0
+subsidence_request_seconds_sum{handler="id_search"} 0.4243189670000902
+subsidence_request_seconds_count{handler="latlon_lookup"} 8.0
+subsidence_request_seconds_sum{handler="latlon_lookup"} 0.09802645100057816
+subsidence_request_seconds_count{handler="layer_switch"} 6.0
+subsidence_request_seconds_sum{handler="layer_switch"} 0.1107693580004252
+subsidence_request_seconds_count{handler="whatif"} 4.0
+subsidence_request_seconds_sum{handler="whatif"} 0.06367076799961069
+subsidence_request_seconds_count{handler="feedback"} 10.0
+subsidence_request_seconds_sum{handler="feedback"} 0.016782982000222546
+subsidence_request_seconds_count{handler="review"} 14.0
+subsidence_request_seconds_sum{handler="review"} 2.012736286000063
+subsidence_errors_total{handler="map_click"} 0.0
+subsidence_errors_total{handler="id_search"} 0.0
+subsidence_errors_total{handler="latlon_lookup"} 0.0
+subsidence_errors_total{handler="layer_switch"} 0.0
+subsidence_errors_total{handler="whatif"} 0.0
+subsidence_errors_total{handler="feedback"} 0.0
+subsidence_errors_total{handler="review"} 0.0
+subsidence_model_cv_macro_f1 0.4292
+subsidence_model_info{data_sha256="6d768c7e35e1",label_version="v2",model="RandomForest(n_estimators=100, min_samples_leaf=5)",sklearn="1.9.1"} 1.0

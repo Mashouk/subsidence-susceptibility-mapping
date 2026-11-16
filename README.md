@@ -50,6 +50,9 @@ Why there are two: DWR's cumulative series restart at 0 whenever a point comes b
 | `python tests/latency.py` | end-to-end latency of four interactions, 40 calls each | `tests/latency_result.json` |
 | `python tests/inject_failure.py db_lock` / `drift` / `down` | deliberate failures and whether the alerts fire | printed |
 | `python measure_selected_model.py` | fit time, model size, whole-grid and single-cell prediction time | `evidence/model_measurements_<machine>.json` |
+| `pip install -r requirements-export.txt` then `python export_geotiff.py` | the susceptibility map as a 5-band GeoTIFF for QGIS or ArcGIS (class, confidence, map state, observed class, label support), read back and checked | `exports/subsidence_susceptibility_<label>_<date>.tif`, `exports/CHANGELOG.md`, `evidence/geotiff_export_check.json` |
+| `python score_test_region.py --dry-run` | counts the labeled test cells and test blocks; computes no score | printed |
+| `python score_test_region.py --score-once` | **one-shot**: scores the final model on the held-out test region and refuses to run a second time. Not run for the submission. | `evidence/test_region_score_once.json` (does not exist until you run it) |
 
 **Evidence for the label and the model** (all offline except the last; each script says what it needs at its top):
 
@@ -60,6 +63,7 @@ Why there are two: DWR's cumulative series restart at 0 whenever a point comes b
 | `label_artifact_model_check.py` | Does the selected forest follow subsidence or the restart artifact? (E10) | `label_artifact_model_check.json` |
 | `ranking_and_confidence_eval.py v1` / `v2` | Hit rate at 5/10/20% against random, the two-indicator rule and a late-2019 persistence proxy; the map confidence states and the 3-point support rule, by block and by label support | `ranking_and_confidence_v1.json`, `..._v2.json`, `development_oof_predictions_*.csv`, `persistence_proxy_late2019.csv` |
 | `trace_label_vs_raster.py` | Asks DWR's rasters (needs internet) what they show at the points' own locations, to separate alignment from the restart artifact | `trace_label_vs_raster_points.csv`, `..._cells.csv` |
+| `tests/deployed_tests.py`, `tests/latency.py`, `tests/inject_failure.py` | Files named `*_sandbox_python_app.*` are runs made in a development sandbox (the app run with `python app.py`, not in Docker). The same scripts rerun on your own Docker stack write the files without `sandbox`. | `tests/*_result*.json`, `evidence/inject_*_sandbox_python_app.txt`, `evidence/metrics_snapshot_sandbox_python_app.txt`, `evidence/monitoring_demo_local_prometheus.json`, `evidence/clean_environment_check_sandbox.txt` |
 
 ---
 
@@ -79,6 +83,8 @@ Why there are two: DWR's cumulative series restart at 0 whenever a point comes b
 | `app.py`, `prepare.py`, `metrics.py`, `feedback.py`, `Dockerfile`, `docker-compose*.yml`, `prometheus.yml`, `alerts.yml`, `grafana/` | The running system (Milestone 5/6): Gradio app, model training at build time, Prometheus metrics, SQLite feedback store, alert rules and the Grafana dashboard. `APP_README.md` and `VM_SETUP.md` explain the pieces. |
 | `tests/`, `evidence/`, `data/v2/` | Tests and latency scripts for the running system, the evidence scripts' outputs, and the reset-aware label. See the tables above. |
 | `check_units_against_dwr_raster.py` | Compares the label with DWR's own feet rasters at the same places, to check the unit and sign of the point file (needs internet). |
+| `export_geotiff.py`, `requirements-export.txt`, `exports/` | Writes the susceptibility map as a GeoTIFF (EPSG:5070, 500 m, 5 bands, tags carrying version, label, cutoff and the appropriate-use caveat) and appends a line to `exports/CHANGELOG.md`. `rasterio` is needed only for this step. |
+| `score_test_region.py` | One-shot scorer for the held-out test region (see the run table). Deliberately not run. |
 | `data/subsidence_dataset.csv` | Predictor table, 5,192 cells x 30 columns (about 1.6 MB, version-controlled). |
 | `data/subsidence_dataset_processed.csv` | Same table plus the label, 5,192 cells x 37 columns (about 1.9 MB, version-controlled). |
 | `data/label_build_log.json` | Settings, counts, class cut points and file checksums for the label build. |

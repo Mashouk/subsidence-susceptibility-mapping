@@ -1,0 +1,7 @@
+(development container, python app.py with a local Prometheus; output of: python tests/inject_failure.py drift, 2026-11-15 16:11)
+step 1: screening cells with the what-if handler (it does not count as a lookup) to find 60 where the model is unsure ...
+step 2: looking up those 60 cells, one after the other, as a user who only ever opens uncertain places would
+share below 0.4 over the last 5 minutes as Prometheus sees it: 0.9333333333333333
+
+watching Prometheus for alert SubsidenceConfidenceShift (up to 120 s) ...
+  SubsidenceConfidenceShift is FIRING after 0 s

@@ -1,6 +1,6 @@
-"""Put your commit hash into the Milestone 4 docx (both yellow placeholders) and remove the yellow highlight.
+"""Put your commit hash into the Word document (every yellow "[paste the commit hash" placeholder) and remove the yellow highlight.
 Usage:  python set_commit_hash.py  <docx>  <commit-hash>
-Example: python set_commit_hash.py Milestone4_AI_Component_and_Experimentation_Rahaman.docx 3f2a9c1
+Example: python set_commit_hash.py Milestones5_6_Final_Working_Document_Rahaman.docx 3f2a9c1
 Needs: pip install python-docx
 """
 import sys, docx

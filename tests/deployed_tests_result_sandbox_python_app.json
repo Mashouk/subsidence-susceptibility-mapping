@@ -1,6 +1,6 @@
 {
   "app": "http://127.0.0.1:7860",
-  "run_at": "2026-11-15T16:15:34",
+  "run_at": "2026-11-15T18:27:00",
   "data": "data/v2/subsidence_dataset_processed.csv",
   "passed": 24,
   "total": 24,
@@ -11,7 +11,7 @@
       "test": "id search for a well-supported labeled cell returns details, probabilities and inputs",
       "passed": true,
       "note": "TC-00289: Low",
-      "seconds": 0.42
+      "seconds": 0.29
     },
     {
       "id": "V2",
@@ -19,15 +19,15 @@
       "test": "latitude/longitude of that cell's centre finds the same cell",
       "passed": true,
       "note": "",
-      "seconds": 0.4
+      "seconds": 0.28
     },
     {
       "id": "V3",
       "kind": "valid",
-      "test": "all three map layers redraw with their own legend",
+      "test": "all three map layers redraw with their own legend; the prediction and confidence legends carry the neighborhood caution",
       "passed": true,
       "note": "",
-      "seconds": 0.71
+      "seconds": 0.53
     },
     {
       "id": "V4",
@@ -35,7 +35,7 @@
       "test": "'Try the model' with a changed groundwater trend returns both probability sets",
       "passed": true,
       "note": "",
-      "seconds": 0.15
+      "seconds": 0.09
     },
     {
       "id": "E1",
@@ -43,7 +43,7 @@
       "test": "lower-case ID with spaces is normalised",
       "passed": true,
       "note": "",
-      "seconds": 0.3
+      "seconds": 0.33
     },
     {
       "id": "E2",
@@ -51,7 +51,7 @@
       "test": "cell with no InSAR label says so and still gives a model estimate",
       "passed": true,
       "note": "",
-      "seconds": 0.34
+      "seconds": 0.28
     },
     {
       "id": "E3",
@@ -59,7 +59,7 @@
       "test": "cell whose label rests on 1-2 points carries the low-support warning",
       "passed": true,
       "note": "",
-      "seconds": 0.31
+      "seconds": 0.28
     },
     {
       "id": "E4",
@@ -67,7 +67,7 @@
       "test": "coordinates outside the study grid give a clear message, not an error",
       "passed": true,
       "note": "",
-      "seconds": 0.26
+      "seconds": 0.23
     },
     {
       "id": "E5",
@@ -75,7 +75,7 @@
       "test": "coordinates in the open sea / extreme values do not crash the lookup",
       "passed": true,
       "note": "",
-      "seconds": 0.25
+      "seconds": 0.24
     },
     {
       "id": "E6",
@@ -91,7 +91,7 @@
       "test": "empty ID gives the help message",
       "passed": true,
       "note": "",
-      "seconds": 0.24
+      "seconds": 0.18
     },
     {
       "id": "M2",
@@ -99,15 +99,15 @@
       "test": "unknown ID (TC-99999) is rejected with the help message and counted as invalid",
       "passed": true,
       "note": "",
-      "seconds": 0.25
+      "seconds": 0.27
     },
     {
       "id": "M3",
       "kind": "malformed",
       "test": "a 10,000-character ID is rejected in under 2 s without an error",
       "passed": true,
-      "note": "0.25 s",
-      "seconds": 0.25
+      "note": "0.24 s",
+      "seconds": 0.24
     },
     {
       "id": "M4",
@@ -115,7 +115,7 @@
       "test": "SQL and HTML text in the ID field is treated as an unknown ID",
       "passed": true,
       "note": "",
-      "seconds": 0.85
+      "seconds": 0.98
     },
     {
       "id": "M5",
@@ -123,7 +123,7 @@
       "test": "missing coordinates are rejected politely",
       "passed": true,
       "note": "",
-      "seconds": 0.23
+      "seconds": 0.26
     },
     {
       "id": "M6",
@@ -131,7 +131,7 @@
       "test": "feedback without a Good/Bad choice is refused and nothing is saved",
       "passed": true,
       "note": "",
-      "seconds": 0.1
+      "seconds": 0.11
     },
     {
       "id": "M7",
@@ -146,8 +146,8 @@
       "kind": "integration",
       "test": "feedback travels app -> SQLite -> review tab -> public 'what we did' list -> CSV export",
       "passed": true,
-      "note": "feedback #7",
-      "seconds": 0.58
+      "note": "feedback #16",
+      "seconds": 0.51
     },
     {
       "id": "I2",
@@ -155,7 +155,7 @@
       "test": "the metrics page counted every valid and invalid lookup made above",
       "passed": true,
       "note": "id_search lookups +4, invalid +7",
-      "seconds": 0.02
+      "seconds": 0.01
     },
     {
       "id": "I3",
@@ -163,7 +163,7 @@
       "test": "Prometheus scrapes the app (target up) and returns the same counter",
       "passed": true,
       "note": "target up, counter present",
-      "seconds": 6.01
+      "seconds": 6.0
     },
     {
       "id": "S1",
@@ -171,7 +171,7 @@
       "test": "wrong review code returns no feedback",
       "passed": true,
       "note": "",
-      "seconds": 1.11
+      "seconds": 1.05
     },
     {
       "id": "S2",
@@ -179,7 +179,7 @@
       "test": "a 100,000-character comment is cut to 500 characters on the server",
       "passed": true,
       "note": "stored 500 characters",
-      "seconds": 0.27
+      "seconds": 0.24
     },
     {
       "id": "S3",
@@ -187,7 +187,7 @@
       "test": "HTML typed into a comment is shown as text in the review table",
       "passed": true,
       "note": "",
-      "seconds": 0.27
+      "seconds": 0.24
     },
     {
       "id": "S4",
@@ -195,54 +195,54 @@
       "test": "a comment containing SQL is stored as plain text and the table still exists",
       "passed": true,
       "note": "",
-      "seconds": 0.18
+      "seconds": 0.24
     }
   ],
   "call_seconds": {
     "/on_id_search": {
       "n": 11,
-      "median": 0.25030535099995177,
-      "max": 0.417247714000041
+      "median": 0.2585282620000271,
+      "max": 0.3274862660000508
     },
     "/on_lookup": {
       "n": 4,
-      "median": 0.26025708600036523,
-      "max": 0.40204002299969943
+      "median": 0.26065104999997857,
+      "max": 0.27802121599984275
     },
     "/on_layer": {
       "n": 3,
-      "median": 0.1872225739998612,
-      "max": 0.33468324100022073
+      "median": 0.17673997199995028,
+      "max": 0.17711970899995322
     },
     "/whatif": {
       "n": 2,
-      "median": 0.14584905899982914,
-      "max": 0.14584905899982914
+      "median": 0.08969837399990865,
+      "max": 0.08969837399990865
     },
     "/submit_feedback": {
       "n": 5,
-      "median": 0.09507527199957622,
-      "max": 0.17038118700020277
+      "median": 0.09984201399993253,
+      "max": 0.1420385300000362
     },
     "/review_load": {
       "n": 4,
-      "median": 0.09641414099996837,
-      "max": 1.1076796239999567
+      "median": 0.14116081599991048,
+      "max": 1.053595138999981
     },
     "/review_save": {
       "n": 1,
-      "median": 0.09109953100005441,
-      "max": 0.09109953100005441
+      "median": 0.09302963400000408,
+      "max": 0.09302963400000408
     },
     "/outcomes_md": {
       "n": 1,
-      "median": 0.0946554769998329,
-      "max": 0.0946554769998329
+      "median": 0.0912741349998214,
+      "max": 0.0912741349998214
     },
     "/review_export": {
       "n": 2,
-      "median": 0.21109517900003993,
-      "max": 0.21109517900003993
+      "median": 0.1435784259999764,
+      "max": 0.1435784259999764
     }
   }
 }

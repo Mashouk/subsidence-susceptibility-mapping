@@ -1,0 +1,6 @@
+(development container, python app.py with a local Prometheus, 2026-11-15; the app process was stopped by hand with kill, not through docker)
+16:12:04  app stopped (kill); the page no longer answers
+16:12:12  Prometheus: SubsidenceAppDown pending (up == 0 first seen)
+16:13:12  Prometheus: SubsidenceAppDown FIRING (the rule waits 1 minute, "for: 1m"); about 68 s after the stop
+16:13:2x  app restarted by hand; target up again; alert cleared at the next evaluation
+Source: evidence/monitoring_demo_local_prometheus.json (series from Prometheus itself).

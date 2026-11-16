@@ -1,0 +1,28 @@
+# Clean-environment check in the development container: a fresh virtual environment, only requirements-app.txt installed, no artifacts/ folder, then prepare.py and app.py (the steps of 8.3 without Docker). The system python3 here is 3.13; the Docker image uses 3.12.
+start 2026-11-15T23:31:45Z
+venv created 2 s
+
+[notice] A new release of pip is available: 26.2.1 -> 26.3
+[notice] To update, run: /tmp/claude-0/-home-claude/ab97f6c2-588a-5f68-a70c-a2c2d3df91ce/scratchpad/m5/clean/venv_clean/bin/python3 -m pip install --upgrade pip
+pip install done 38 s
+Python 3.13.16
+gradio            6.31.0
+matplotlib        3.11.2
+numpy             2.5.4
+pandas            3.1.1
+pyproj            3.8.0
+scikit-learn      1.9.1
+label v2, out-of-fold macro-F1: 0.4292 (README: 0.3692 for v1, 0.4292 for v2, seed 42)
+{'data_sha256': '6d768c7e35e1d07381c256e79aa847e36accf6ec89718f31664378a5a43cc27b', 'sklearn': '1.9.1', 'oof_macro_f1': 0.4292, 'n_cells': 5192, 'n_train_cells': 2193, 'n_test_cells': 822, 'n_unlabeled': 2177, 'cutpoints': [577.5845630943986, 788.538785627992, 922.2478396088192, 1047.0455574086777], 'label_version': 'v2', 'label_method': "per-point least-squares slope over the readings in the window, fitted with a separate intercept for every uninterrupted stretch of readings (a new stretch starts after a gap of 30+ days, where DWR's cumulative series restarts at 0), times the window length; a point is usable with at least 20 readings and stretches that together cover at least 60% of the window; cell label = median over the usable points inside the cell; positive = sinking", 'window': ['2020-01-01', '2024-12-31']}
+prepare.py 3 s
+total 3552
+drwxr-xr-x 2 root root    4096 Nov 15 18:32 .
+drwxr-xr-x 9 root root    4096 Nov 15 18:32 ..
+-rw-r--r-- 1 root root     881 Nov 15 18:32 meta.json
+-rw-r--r-- 1 root root 2551795 Nov 15 18:32 model.joblib
+-rw-r--r-- 1 root root 1069723 Nov 15 18:32 predictions.csv
+app answering after 4 s
+page HTTP 200
+subsidence_model_cv_macro_f1 0.4292
+subsidence_model_info{data_sha256="6d768c7e35e1",label_version="v2",model="RandomForest(n_estimators=100, min_samples_leaf=5)",sklearn="1.9.1"} 1.0
+done total 45 s
