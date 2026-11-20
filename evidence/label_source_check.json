@@ -69,50 +69,50 @@
   "E_emulated_raster": {
     "idw_power1_all_points": {
       "cells_with_value": 3174,
-      "spearman_all_labeled_cells": 0.5953409117942683,
-      "spearman_cells_with_5plus_points": 0.6374640277685354,
+      "spearman_all_labeled_cells": 0.5953424650048095,
+      "spearman_cells_with_5plus_points": 0.6374638340130684,
       "cells_5plus_points_and_change_over_0.2ft": 1877,
-      "median_ratio_label_over_change": 0.7845131752433245,
+      "median_ratio_label_over_change": 0.7845131752401635,
       "same_sign_share": 0.8055407565263719
     },
     "idw_power1_usable_points_only": {
       "cells_with_value": 3174,
-      "spearman_all_labeled_cells": 0.5953409117942683,
-      "spearman_cells_with_5plus_points": 0.6374640277685354,
+      "spearman_all_labeled_cells": 0.5953424650048095,
+      "spearman_cells_with_5plus_points": 0.6374638340130684,
       "cells_5plus_points_and_change_over_0.2ft": 1877,
-      "median_ratio_label_over_change": 0.7845131752433245,
+      "median_ratio_label_over_change": 0.7845131752401635,
       "same_sign_share": 0.8055407565263719
     },
     "idw_power2_all_points": {
       "cells_with_value": 3174,
-      "spearman_all_labeled_cells": 0.597385225606623,
+      "spearman_all_labeled_cells": 0.5973851428588637,
       "spearman_cells_with_5plus_points": 0.6290999503476985,
       "cells_5plus_points_and_change_over_0.2ft": 1915,
-      "median_ratio_label_over_change": 0.4365699509648533,
+      "median_ratio_label_over_change": 0.43656995096417084,
       "same_sign_share": 0.7822454308093995
     },
     "idw_power2_usable_points_only": {
       "cells_with_value": 3174,
-      "spearman_all_labeled_cells": 0.597385225606623,
+      "spearman_all_labeled_cells": 0.5973851428588637,
       "spearman_cells_with_5plus_points": 0.6290999503476985,
       "cells_5plus_points_and_change_over_0.2ft": 1915,
-      "median_ratio_label_over_change": 0.4365699509648533,
+      "median_ratio_label_over_change": 0.43656995096417084,
       "same_sign_share": 0.7822454308093995
     },
     "idw_power3_all_points": {
       "cells_with_value": 3174,
-      "spearman_all_labeled_cells": 0.5889304021175624,
+      "spearman_all_labeled_cells": 0.588929058257461,
       "spearman_cells_with_5plus_points": 0.612621457376423,
       "cells_5plus_points_and_change_over_0.2ft": 1938,
-      "median_ratio_label_over_change": 0.2833928444021704,
+      "median_ratio_label_over_change": 0.2833928444014068,
       "same_sign_share": 0.7693498452012384
     },
     "idw_power3_usable_points_only": {
       "cells_with_value": 3174,
-      "spearman_all_labeled_cells": 0.5889304021175624,
+      "spearman_all_labeled_cells": 0.588929058257461,
       "spearman_cells_with_5plus_points": 0.612621457376423,
       "cells_5plus_points_and_change_over_0.2ft": 1938,
-      "median_ratio_label_over_change": 0.2833928444021704,
+      "median_ratio_label_over_change": 0.2833928444014068,
       "same_sign_share": 0.7693498452012384
     }
   },
