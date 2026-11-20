@@ -1,0 +1,67 @@
+{
+  "measured_at": "2026-11-20T06:46:10",
+  "machine": {
+    "platform": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+    "processor": "",
+    "logical_cpus": 4,
+    "python": "3.12.16",
+    "scikit_learn": "1.9.1",
+    "numpy": "2.5.4",
+    "pandas": "3.1.1"
+  },
+  "data": {
+    "path": "data/v2/subsidence_dataset_processed.csv",
+    "development_cells": 2193,
+    "grid_cells": 5192
+  },
+  "note": "single process, n_jobs=1, as in prepare.py",
+  "run2_selected_min_samples_leaf_5": {
+    "fit_seconds_per_fold_median": 1.773307551000471,
+    "fit_seconds_per_fold_all": [
+      1.9813253909997002,
+      1.773307551000471,
+      1.8713018119997287,
+      1.7272092529992733,
+      1.7050453230003768
+    ],
+    "full_fit_seconds_median_of_5": 2.137289399999645,
+    "full_fit_seconds_all": [
+      2.2014663330000985,
+      2.1882796239997333,
+      2.1310700270005327,
+      2.137289399999645,
+      2.1279998969994267
+    ],
+    "saved_model_MB": 2.551795,
+    "load_seconds_median": 0.1237103780003963,
+    "whole_grid_predict_seconds_median_of_20": 0.25755579700035014,
+    "per_cell_ms_in_grid_call": 0.04960627831285634,
+    "single_cell_predict_ms_median_of_200": 60.093896000125824,
+    "single_cell_predict_ms_p95": 68.29301615020992
+  },
+  "run1_min_samples_leaf_1": {
+    "fit_seconds_per_fold_median": 3.625575992999984,
+    "fit_seconds_per_fold_all": [
+      3.652073511000708,
+      3.664403716000379,
+      3.625575992999984,
+      3.5036628930001825,
+      3.4950472310001715
+    ],
+    "full_fit_seconds_median_of_5": 4.75761027200042,
+    "full_fit_seconds_all": [
+      4.642221660999894,
+      4.649147935000656,
+      4.75761027200042,
+      4.889454981000199,
+      5.208880940000199
+    ],
+    "saved_model_MB": 17.599347,
+    "load_seconds_median": 0.2169098499998654,
+    "whole_grid_predict_seconds_median_of_20": 0.33923943699983283,
+    "per_cell_ms_in_grid_call": 0.06533887461475979,
+    "single_cell_predict_ms_median_of_200": 60.436542500156065,
+    "single_cell_predict_ms_p95": 69.04453070010275
+  },
+  "peak_resident_memory_MB_of_this_process": 217.8828125
+}

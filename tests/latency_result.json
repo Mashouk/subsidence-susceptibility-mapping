@@ -1,0 +1,41 @@
+{
+  "app": "http://127.0.0.1:7860",
+  "run_at": "2026-11-20T01:08:24",
+  "calls_per_interaction": 40,
+  "page_load_s": 0.06683450005948544,
+  "page_bytes": 101209,
+  "rows": [
+    {
+      "interaction": "search a cell by ID (details, probabilities, map redraw)",
+      "calls": 40,
+      "median_s": 5.612763450073544,
+      "p95_s": 6.169852600083686,
+      "max_s": 6.432882299995981,
+      "handler_mean_s_from_prometheus_histogram": 0.2890959642249925
+    },
+    {
+      "interaction": "look up a cell by latitude/longitude",
+      "calls": 40,
+      "median_s": 5.4802879999624565,
+      "p95_s": 6.267384100006893,
+      "max_s": 6.9427861999720335,
+      "handler_mean_s_from_prometheus_histogram": 0.18225216822498852
+    },
+    {
+      "interaction": "switch the map layer",
+      "calls": 40,
+      "median_s": 5.549349500040989,
+      "p95_s": 5.722334399935789,
+      "max_s": 5.822813499951735,
+      "handler_mean_s_from_prometheus_histogram": 0.026836862950023032
+    },
+    {
+      "interaction": "'Try the model' (what-if)",
+      "calls": 40,
+      "median_s": 3.6608919499558397,
+      "p95_s": 3.906476000091061,
+      "max_s": 6.227135799941607,
+      "handler_mean_s_from_prometheus_histogram": 0.22538537760000849
+    }
+  ]
+}
